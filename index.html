@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toby Alexander Rogers — Senior Enterprise Engineer · BI &amp; AI Architect</title>
+<meta name="description" content="Toby Alexander Rogers — Senior Enterprise Solutions Engineer with 30+ years across Atlassian platform architecture, business intelligence and applied AI. Bilingual EN/IT, based in Padua, Italy.">
+<meta name="author" content="Toby Alexander Rogers">
+
+<meta property="og:title" content="Toby Alexander Rogers — Senior Enterprise Engineer">
+<meta property="og:description" content="30+ years across Atlassian, BI and applied AI. Author of atlassian-mcp. Bilingual EN/IT, based in Padua.">
+<meta property="og:url" content="https://tobyalexanderrogers.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tobyalexanderrogers.com/photo.jpg">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .header {
+    background: #1a2744;
+    color: #fff;
+    padding: 48px 0 40px;
+  }
+  .header-inner {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .header .tagline {
+    font-size: 14px;
+    color: #a8b8d0;
+    letter-spacing: 0.3px;
+    margin-bottom: 14px;
+  }
+  .header .status {
+    font-size: 13px;
+    color: #c5d2e0;
+    line-height: 1.7;
+  }
+  .header .status strong { color: #fff; }
+
+  /* Sections */
+  section { padding: 48px 0; }
+  section.alt { background: #f7f8fb; border-top: 1px solid #e5e9f2; border-bottom: 1px solid #e5e9f2; }
+
+  .sec-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e9f2;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a2744;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  /* About */
+  .about p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .about p strong { color: #1a2744; }
+  .about a { color: #2b5faa; text-decoration: none; font-weight: 600; }
+  .about a:hover { text-decoration: underline; }
+
+  /* Project cards */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .project-card {
+    background: #fff;
+    border: 1px solid #e5e9f2;
+    border-left: 4px solid #2b5faa;
+    padding: 20px 24px;
+    border-radius: 0 6px 6px 0;
+  }
+  .project-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a2744;
+    margin-bottom: 6px;
+  }
+  .project-card .tech {
+    font-size: 12px;
+    color: #2b5faa;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+  .project-card p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .project-card a {
+    color: #2b5faa;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .project-card a:hover { text-decoration: underline; }
+
+  /* CV download */
+  .cv-download {
+    background: #1a2744;
+    color: #fff;
+    padding: 24px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .cv-download .cv-text { flex: 1; min-width: 250px; }
+  .cv-download .cv-text strong { display: block; font-size: 16px; margin-bottom: 4px; color: #fff; }
+  .cv-download .cv-text span { font-size: 13px; color: #c5d2e0; }
+  .cv-btn {
+    display: inline-block;
+    background: #2b5faa;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .cv-btn:hover { background: #1e4585; }
+
+  /* Contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .contact-link {
+    background: #fff;
+    border: 1px solid #d5dae8;
+    padding: 14px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #1a2744;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-link:hover {
+    border-color: #2b5faa;
+    background: #f0f5fa;
+  }
+  .contact-link .label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #7a8aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .contact-link .value {
+    color: #1a2744;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .contact-link .icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  footer {
+    background: #1a2744;
+    color: #a8b8d0;
+    padding: 24px 0;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .header { padding: 32px 0; }
+    .header-inner { grid-template-columns: 1fr; text-align: center; gap: 20px; }
+    .photo { margin: 0 auto; width: 120px; height: 120px; }
+    .header h1 { font-size: 26px; }
+    section { padding: 32px 0; }
+    h2 { font-size: 19px; }
+    .cv-download { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="header-inner">
+      <img src="photo.jpg" alt="Toby Alexander Rogers" class="photo">
+      <div>
+        <h1>Toby Alexander Rogers</h1>
+        <div class="tagline">Senior Enterprise Solutions Engineer &nbsp;·&nbsp; BI &amp; AI Architect &nbsp;·&nbsp; Atlassian Specialist</div>
+        <div class="status">
+          Padua, Italy &nbsp;·&nbsp; Remote / Hybrid &nbsp;·&nbsp; English (Native), Italian (Professional)<br>
+          <strong>Available from 1 August 2026</strong> for senior consulting or permanent positions.
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="alt about">
+  <div class="container">
+    <div class="sec-title">About</div>
+    <h2>30+ years of enterprise technology, currently focused on production AI tooling and BI architecture.</h2>
+    <p>
+      Senior enterprise solutions engineer with an unusually broad combination of disciplines: <strong>lead architect of the company-wide Microsoft Power BI estate</strong> at InvestCloud, <strong>sole administrator of the Atlassian Jira ecosystem</strong> across all business units, and <strong>active AI practitioner</strong> with daily production use of Claude Code and Model Context Protocol (MCP) integrations.
+    </p>
+    <p>
+      Author of <a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">atlassian-mcp</a>, a public Python MCP server demonstrating production-grade AI integration patterns. Documented <strong>~2× capacity uplift</strong> on BI and Atlassian delivery through AI-augmented engineering at enterprise scale.
+    </p>
+    <p>
+      Bilingual English and Italian; based in Padua, Italy; 28 years of professional experience in the Italian market. Currently exiting InvestCloud as part of a collective redundancy, with formal employment ending 31 July 2026.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-title">Featured Work</div>
+    <h2>Selected projects and contributions</h2>
+
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <h3>atlassian-mcp</h3>
+        <div class="tech">Python · FastMCP · httpx · Public open source</div>
+        <p>
+          A production-grade Python Model Context Protocol (MCP) server exposing curated Atlassian Jira data to AI assistants such as Claude. Read-only by design, with custom JQL primitives, full architecture documentation, and demonstration of senior engineering practice including scope discipline and security boundaries. The repository serves as a verifiable artefact of the agentic patterns delivered in production at InvestCloud.
+        </p>
+        <a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">View on GitHub →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>Claude Usage Power BI Report</h3>
+        <div class="tech">Microsoft Power BI · DAX · Snowflake · AI Governance</div>
+        <p>
+          Co-developed governance dashboard providing engineering and AI leadership with visibility into Claude Code adoption, licence consumption, and rollout patterns across the InvestCloud organisation. The report closes the feedback loop on AI investment by surfacing adoption metrics to leadership in real time, directly informing decisions on scale, reliability, and cost optimisation of the wider AI rollout.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>11-Page Marketing &amp; Sales Dashboard</h3>
+        <div class="tech">Microsoft Power BI · HubSpot · Snowflake · Multi-Source Integration</div>
+        <p>
+          Enterprise BI deliverable consolidating digital funnel data, social metrics, and HubSpot pipeline information into a single governed Microsoft Power BI semantic model. Documented self-service for the Sales and Marketing leadership team. Demonstrates the multi-source integration and stakeholder enablement patterns characteristic of senior Marketing Performance and Growth reporting across fintech and scale-up environments.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="sec-title">Curriculum Vitae</div>
+    <div class="cv-download">
+      <div class="cv-text">
+        <strong>Full CV available on request</strong>
+        <span>Multiple variants tailored to specific role types (BI, AI, Atlassian, Consulting, Executive Leadership). Italian-language variants also available.</span>
+      </div>
+      <a href="mailto:tobyalexanderrogers@gmail.com?subject=CV%20request" class="cv-btn">Request CV</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-title">Contact</div>
+    <div class="contact-grid">
+
+      <a href="mailto:tobyalexanderrogers@gmail.com" class="contact-link">
+        <span class="icon">✉</span>
+        <span>
+          <span class="label">Email</span>
+          <span class="value">tobyalexanderrogers@gmail.com</span>
+        </span>
+      </a>
+
+      <a href="https://www.linkedin.com/in/tobyalexanderrogers/" target="_blank" class="contact-link">
+        <span class="icon">in</span>
+        <span>
+          <span class="label">LinkedIn</span>
+          <span class="value">linkedin.com/in/tobyalexanderrogers</span>
+        </span>
+      </a>
+
+      <a href="https://github.com/Toby-Rogers" target="_blank" class="contact-link">
+        <span class="icon">⌥</span>
+        <span>
+          <span class="label">GitHub</span>
+          <span class="value">github.com/Toby-Rogers</span>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2026 Toby Alexander Rogers · Padua, Italy
+  </div>
+</footer>
+
+</body>
+</html>
