@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Development &amp; Engineering — Toby Alexander Rogers</title>
+<meta name="description" content="AI Development &amp; Engineering — Projects &amp; Contributions by Toby Alexander Rogers. Production Claude Code + MCP integrations, applied AI engineering at InvestCloud.">
+<meta name="author" content="Toby Alexander Rogers">
+
+<meta property="og:title" content="AI Development &amp; Engineering — Toby Alexander Rogers">
+<meta property="og:description" content="Production Claude Code + MCP integrations, applied AI engineering at InvestCloud. Author of atlassian-mcp.">
+<meta property="og:url" content="https://tobyalexanderrogers.com/ai.html">
+<meta property="og:type" content="website">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  a { color: #2b5faa; }
+
+  /* Top navigation */
+  .topnav {
+    background: #0d1729;
+    border-bottom: 1px solid #1a2744;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topnav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topnav .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .topnav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .topnav .nav-links a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .topnav .nav-links a:hover { color: #fff; }
+  .topnav .nav-links a.active {
+    color: #fff;
+    border-bottom-color: #2b5faa;
+  }
+
+  /* Page header */
+  .page-header {
+    background: #1a2744;
+    color: #fff;
+    padding: 40px 0 36px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    font-size: 13px;
+    color: #a8b8d0;
+    line-height: 1.6;
+  }
+  .page-header .meta strong { color: #6fa8f5; font-weight: 600; }
+
+  /* Body layout */
+  .page-body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 36px;
+    padding: 36px 0 48px;
+  }
+
+  /* Sidebar */
+  .sidebar { font-size: 13px; }
+  .sb-section { margin-bottom: 22px; }
+  .sb-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e9f2;
+  }
+  .tag-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-size: 11px;
+    color: #1a2744;
+    background: #fff;
+    border: 1px solid #d5dae8;
+    border-radius: 3px;
+    padding: 3px 8px;
+    line-height: 1.3;
+  }
+  .sb-intro {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .outcome-card {
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .outcome-card strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #2b5faa;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+  .outcome-card p {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  /* Main content */
+  .main { min-width: 0; }
+  .sec-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    border-bottom: 1px solid #e5e9f2;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .sec-title:first-child { margin-top: 0; }
+
+  .intro-box {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.65;
+    background: #f0f5fa;
+    border-left: 3px solid #2b5faa;
+    padding: 14px 18px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 8px;
+  }
+
+  /* Project blocks */
+  .proj { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid #e8edf5; }
+  .proj:last-child { border-bottom: none; }
+  .proj-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .proj-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a2744;
+  }
+  .proj-tag {
+    font-size: 11px;
+    font-weight: 600;
+    background: #eef2fb;
+    color: #2b5faa;
+    border: 1px solid #c5d2f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .proj-obj {
+    font-size: 14px;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .proj ul {
+    padding-left: 20px;
+    margin-bottom: 8px;
+  }
+  .proj li {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .proj li strong { color: #1a2744; }
+
+  .outcome-bar {
+    background: #eef7f1;
+    border-left: 3px solid #2d9e6b;
+    border-radius: 0 4px 4px 0;
+    padding: 8px 14px;
+    margin-top: 8px;
+  }
+  .outcome-bar span {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #2d9e6b;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .outcome-bar p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.55;
+  }
+
+  /* Footer */
+  footer {
+    background: #1a2744;
+    color: #a8b8d0;
+    padding: 28px 0;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: #6fa8f5; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .page-body { grid-template-columns: 1fr; gap: 28px; }
+    .topnav .nav-links { gap: 18px; }
+    .page-header h1 { font-size: 22px; }
+    .proj-title { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">Toby Alexander Rogers</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="ai.html" class="active">AI</a></li>
+      <li><a href="bi.html">BI</a></li>
+      <li><a href="atlassian.html">Atlassian</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <h1>AI Development &amp; Engineering</h1>
+    <div class="meta">Projects &amp; Contributions &nbsp;·&nbsp; <strong>Senior Enterprise Solutions Engineer, InvestCloud</strong> &nbsp;·&nbsp; Production AI / LLM / MCP work</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-body">
+
+    <aside class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">AI Tools Used</div>
+        <div class="tag-wrap">
+          <span class="tag">Claude Code</span>
+          <span class="tag">Glean</span>
+          <span class="tag">Cursor</span>
+          <span class="tag">Atlassian MCP</span>
+          <span class="tag">Glean MCP</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">Power Automate</span>
+          <span class="tag">Microsoft Power BI</span>
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Context</div>
+        <p class="sb-intro">Applied and hands-on AI engineering embedded within Enterprise Solutions / Tech Operations at InvestCloud. All work is production-grade — not experimental — and feeds back into InvestCloud's wider AI communities and governance.</p>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Key Strengths</div>
+        <div class="outcome-card">
+          <strong>Applied, not theoretical</strong>
+          <p>AI tools used daily on real production work — BI pipelines, platform config, and operational tasks.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Agentic &amp; integrated</strong>
+          <p>Claude Code workflows connected to Atlassian Jira, Confluence, and Glean via MCP — context, code, and docs move together.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Measurable capacity gain</strong>
+          <p>AI automation explicitly scoped to deliver productivity outcomes — tracked via Microsoft Power BI and reported to leadership.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Community &amp; governance</strong>
+          <p>Practical experience fed back into CoP sessions, training, and AI governance reporting.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="sec-title">Approach &amp; Core Responsibilities</div>
+      <div class="intro-box">
+        Using Claude Code as the primary AI coding environment for end-to-end workflow design — from generating and refactoring code to running tests and raising merge requests via standardised slash-command workflows. Atlassian and Glean MCP servers provide live context from Atlassian Jira, Confluence, SharePoint, Teams, and GitLab directly inside each coding session.
+      </div>
+
+      <div class="sec-title">Selected Projects</div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">1. Automating BI &amp; Enterprise Solutions workflows</div>
+          <div class="proj-tag">Claude Code · Microsoft Power BI · Power Automate</div>
+        </div>
+        <div class="proj-obj">Objective: double team capacity on BI and platform tasks by offloading repetitive work to an AI coding assistant.</div>
+        <ul>
+          <li>Used Claude Code to <strong>build and update Microsoft Power BI dataflows</strong>, Power Automate jobs, and related scripts — new reports stood up with significantly less manual effort.</li>
+          <li>Automated <strong>Atlassian Jira/JSM configuration and ticket hygiene</strong> — field changes, scheme updates — keeping Atlassian aligned with product and reporting needs without backlog accumulation.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Delivered ~2× capacity increase for Enterprise Solutions on BI and Atlassian Jira/JSM tasks, unlocking a backlog previously blocked by manual effort constraints.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">2. Claude usage analytics</div>
+          <div class="proj-tag">Microsoft Power BI · AI Governance · Claude Code</div>
+        </div>
+        <div class="proj-obj">Objective: give Platform leadership clear visibility into Claude Code adoption across engineering teams.</div>
+        <ul>
+          <li>Co-developed the <strong>Dataflow – Platform – Claude Usage</strong> Microsoft Power BI dataflow and report, pulling usage data into a standardised model integrated into the Enterprise DataFlows audit suite.</li>
+          <li>Documented data sources, workspace, and refresh schedule in Confluence to support AI governance reporting.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Leadership can monitor Claude usage patterns and licence consumption, tied directly to AI enablement initiatives and training programmes.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">3. AI-assisted Atlassian workflows via Claude Code + MCP</div>
+          <div class="proj-tag">Claude Code · Atlassian MCP · Atlassian Jira · Confluence</div>
+        </div>
+        <div class="proj-obj">Objective: use Claude Code as an agent over Atlassian to keep code, tickets, and documentation in sync automatically.</div>
+        <ul>
+          <li>Configured <strong>Atlassian MCP servers</strong> to enable Claude to read/update Atlassian Jira tickets — comments, status transitions, MR links — and edit Confluence pages directly from the CLI.</li>
+          <li>Applied to Enterprise Solutions work: JSM tickets, Atlassian Jira config changes, and documentation updates all tied into a single agentic workflow.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Atlassian Jira, Confluence, and code stay in sync automatically — reducing manual bookkeeping and improving auditability of all platform changes.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">4. atlassian-mcp — public Python MCP server</div>
+          <div class="proj-tag">Python · FastMCP · Open Source · <a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">GitHub</a></div>
+        </div>
+        <div class="proj-obj">Objective: open-source a production-grade Python MCP server demonstrating the agentic Atlassian pattern delivered at InvestCloud.</div>
+        <ul>
+          <li>Designed and built a read-only <strong>Python MCP server</strong> exposing curated JQL primitives for Atlassian Jira access via Claude — backend service architecture with FastMCP + httpx + python-dotenv.</li>
+          <li>Documented architecture, README, demo screenshot, and explicit "not in scope" framing — public artefact at <strong><a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">github.com/Toby-Rogers/atlassian-mcp</a></strong> demonstrating senior engineering practice.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Publicly verifiable demonstration of the same agentic Atlassian pattern delivered in production — backend services, AI integration patterns, and product scope discipline as a portfolio artefact.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">5. Claude Code Community of Practice &amp; standardisation</div>
+          <div class="proj-tag">AI Enablement · Platform · CoP</div>
+        </div>
+        <ul>
+          <li>Participated in the <strong>Platform Claude Code Kickoff</strong> and ongoing practices sessions, sharing real Enterprise Solutions scenarios — Microsoft Power BI automation, JSM workflows, Atlassian admin tasks.</li>
+          <li>Contributions ensure the shared <strong>claude-setup framework and skills library</strong> reflect actual cross-team production use cases, not just engineering workflows.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Helps standardise agentic development practices across Platform, making AI-assisted delivery easier to adopt safely and consistently.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">6. Glean-driven AI enablement &amp; enterprise context</div>
+          <div class="proj-tag">Glean · Enterprise AI · Cross-system research</div>
+        </div>
+        <ul>
+          <li>Use Glean daily to pull together <strong>Atlassian Jira, Confluence, SharePoint, Teams, and Outlook</strong> context into a single view when scoping automations or troubleshooting.</li>
+          <li>BI reports and agentic workflows aligned with the <strong>Glean Training &amp; Adoption</strong> programme and InvestCloud's broader Enterprise AI strategy.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>AI work is rooted in a secure, permission-aware enterprise context — supporting the wider rollout of Glean and Claude as InvestCloud's primary AI tools.</p></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    © 2026 Toby Alexander Rogers · Padua, Italy · <a href="index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>

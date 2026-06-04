@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlassian Platform — Toby Alexander Rogers</title>
+<meta name="description" content="Atlassian Platform — Projects &amp; Contributions by Toby Alexander Rogers. Sole administrator of the company-wide Atlassian estate at InvestCloud (Cloud + Data Center).">
+<meta name="author" content="Toby Alexander Rogers">
+
+<meta property="og:title" content="Atlassian Platform — Toby Alexander Rogers">
+<meta property="og:description" content="Sole administrator of the agency-wide Atlassian estate at InvestCloud. Atlassian Jira, JSM, Confluence, Tempo, Atlassian Guard, ScriptRunner, JSU.">
+<meta property="og:url" content="https://tobyalexanderrogers.com/atlassian.html">
+<meta property="og:type" content="website">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  a { color: #2b5faa; }
+
+  /* Top navigation */
+  .topnav {
+    background: #0d1729;
+    border-bottom: 1px solid #1a2744;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topnav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topnav .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .topnav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .topnav .nav-links a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .topnav .nav-links a:hover { color: #fff; }
+  .topnav .nav-links a.active {
+    color: #fff;
+    border-bottom-color: #2b5faa;
+  }
+
+  /* Page header */
+  .page-header {
+    background: #1a2744;
+    color: #fff;
+    padding: 40px 0 36px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    font-size: 13px;
+    color: #a8b8d0;
+    line-height: 1.6;
+  }
+  .page-header .meta strong { color: #6fa8f5; font-weight: 600; }
+
+  /* Body layout */
+  .page-body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 36px;
+    padding: 36px 0 48px;
+  }
+
+  /* Sidebar */
+  .sidebar { font-size: 13px; }
+  .sb-section { margin-bottom: 22px; }
+  .sb-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e9f2;
+  }
+  .tag-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-size: 11px;
+    color: #1a2744;
+    background: #fff;
+    border: 1px solid #d5dae8;
+    border-radius: 3px;
+    padding: 3px 8px;
+    line-height: 1.3;
+  }
+  .sb-intro {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .sb-intro strong { color: #1a2744; }
+  .outcome-card {
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .outcome-card strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #2b5faa;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+  .outcome-card p {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  /* Main content */
+  .main { min-width: 0; }
+  .sec-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    border-bottom: 1px solid #e5e9f2;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .sec-title:first-child { margin-top: 0; }
+
+  /* Project blocks */
+  .proj { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid #e8edf5; }
+  .proj:last-child { border-bottom: none; }
+  .proj-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .proj-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a2744;
+  }
+  .proj-tag {
+    font-size: 11px;
+    font-weight: 600;
+    background: #eef2fb;
+    color: #2b5faa;
+    border: 1px solid #c5d2f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .proj ul {
+    padding-left: 20px;
+    margin-bottom: 8px;
+  }
+  .proj li {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .proj li strong { color: #1a2744; }
+
+  .outcome-bar {
+    background: #eef7f1;
+    border-left: 3px solid #2d9e6b;
+    border-radius: 0 4px 4px 0;
+    padding: 8px 14px;
+    margin-top: 8px;
+  }
+  .outcome-bar span {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #2d9e6b;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .outcome-bar p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.55;
+  }
+
+  /* Footer */
+  footer {
+    background: #1a2744;
+    color: #a8b8d0;
+    padding: 28px 0;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: #6fa8f5; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .page-body { grid-template-columns: 1fr; gap: 28px; }
+    .topnav .nav-links { gap: 18px; }
+    .page-header h1 { font-size: 22px; }
+    .proj-title { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">Toby Alexander Rogers</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="bi.html">BI</a></li>
+      <li><a href="atlassian.html" class="active">Atlassian</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <h1>Atlassian Platform</h1>
+    <div class="meta">Projects &amp; Contributions &nbsp;·&nbsp; <strong>Senior Enterprise Solutions Engineer, InvestCloud</strong> &nbsp;·&nbsp; Sole admin · Cloud + Data Center · Agency-wide Team solution</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-body">
+
+    <aside class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Atlassian Tools</div>
+        <div class="tag-wrap">
+          <span class="tag">Atlassian Jira Software</span>
+          <span class="tag">Atlassian Jira Service Mgmt</span>
+          <span class="tag">Atlassian Jira Assets</span>
+          <span class="tag">Confluence</span>
+          <span class="tag">Tempo</span>
+          <span class="tag">eazyBI</span>
+          <span class="tag">Atlassian Guard</span>
+          <span class="tag">ScriptRunner</span>
+          <span class="tag">Automation</span>
+          <span class="tag">JSU</span>
+          <span class="tag">Portfolio</span>
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Context</div>
+        <p class="sb-intro">Internal platform owner for the full Atlassian stack at InvestCloud (<strong>Cloud and Data Center</strong>) — sole administrator across Atlassian Jira, JSM, Confluence, and Tempo, serving all business units from Product and R&amp;D through to Professional Services and Support.</p>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Key Outcomes</div>
+        <div class="outcome-card">
+          <strong>Platform consistency</strong>
+          <p>Standardised Atlassian Jira instances across all business units supporting delivery and portfolio-level reporting.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Governance &amp; auditability</strong>
+          <p>Auditable processes around access, config changes, and usage meeting security and compliance requirements.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Actionable BI</strong>
+          <p>Leadership reporting on productivity, utilisation, and initiatives built by connecting Atlassian Jira and Tempo into Microsoft Power BI.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Adoption &amp; enablement</strong>
+          <p>Higher tool adoption through hands-on training, process design, and ongoing consulting with teams.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="sec-title">Atlassian Jira Software — Administration &amp; Governance</div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Company-wide Atlassian Jira configuration &amp; IC Products taxonomy</div>
+          <div class="proj-tag">Atlassian Jira · Governance · Ongoing</div>
+        </div>
+        <ul>
+          <li>Built and maintain <strong>workflows, screens, field schemes, permissions, and notification schemes</strong> across all company-wide and client-specific projects.</li>
+          <li>Designed and own the <strong>IC Products taxonomy</strong> — the canonical product dimension used across Atlassian Jira, Tempo, and Microsoft Power BI for portfolio reporting and billing. Manages full lifecycle: additions, deprecations, and downstream impact on boards, filters, and reports.</li>
+          <li>Developed standardised <strong>project templates</strong> per business area and translated executive reporting needs into Atlassian Jira structures — hierarchies, board configs, and dashboards.</li>
+        </ul>
+      </div>
+
+      <div class="sec-title">Atlassian Jira Service Management — Portal &amp; Workflow Design</div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Internal platform request portal</div>
+          <div class="proj-tag">JSM · Automation</div>
+        </div>
+        <ul>
+          <li>Designed and administer the JSM portal for all internal Atlassian requests — access, config changes, product field updates, and reporting.</li>
+          <li>Configured <strong>request types, queues, SLA schemes, and approval/triage automations</strong> ensuring requests land with the right owner carrying all metadata needed for downstream processing.</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Change Management JSM projects — Platform &amp; APL</div>
+          <div class="proj-tag">JSM · Change Management · ITIL</div>
+        </div>
+        <ul>
+          <li>Designed dedicated Change Management JSM projects covering normal, standard, and emergency changes — with <strong>approval workflows, CAB views, and change calendars</strong> for freeze windows and scheduling conflicts.</li>
+          <li>Full audit trail generated linking change records to implementation tickets, approvals, and post-implementation reviews.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Controlled, auditable change process for infrastructure and application changes across Platform and APL teams.</p></div>
+      </div>
+
+      <div class="sec-title">Identity, APIs &amp; Third-Party Integrations</div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Atlassian Guard with AD / Entra ID — SSO &amp; user lifecycle</div>
+          <div class="proj-tag">Atlassian Guard · AD / Entra · SAML/SCIM</div>
+        </div>
+        <ul>
+          <li>Owned identity and access integration for the Atlassian Cloud estate — <strong>Atlassian Guard</strong> federated with <strong>Active Directory / Microsoft Entra ID</strong> via <strong>SAML SSO</strong> and <strong>SCIM provisioning</strong>, covering joiners, movers, and leavers.</li>
+          <li>Aligned access policies and group-based permission schemes with corporate identity governance, removing manual per-tool user administration and tightening compliance posture.</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">REST API automation &amp; third-party product integrations</div>
+          <div class="proj-tag">REST APIs · ScriptRunner · JSU</div>
+        </div>
+        <ul>
+          <li>Built REST API integrations and ScriptRunner / JSU automations linking Atlassian to <strong>Zendesk, SharePoint, Snowflake, and Microsoft Power BI</strong> — cross-platform workflows that keep ticketing, knowledge, time tracking, and reporting in sync without manual re-keying.</li>
+          <li>Used Atlassian and third-party REST APIs in scripts for bulk migrations, data corrections, and scheduled synchronisations between Atlassian Jira / JSM and external systems.</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">atlassian-mcp — public Python MCP server</div>
+          <div class="proj-tag">Python · FastMCP · Open Source · <a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">GitHub</a></div>
+        </div>
+        <ul>
+          <li>Authored and open-sourced a <strong>Python MCP server</strong> exposing curated Atlassian Jira data to AI assistants — read-only by design, with custom JQL primitives, FastMCP + httpx stack, full documentation and demo screenshot.</li>
+          <li>Public artefact at <strong><a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">github.com/Toby-Rogers/atlassian-mcp</a></strong> demonstrating the agentic Atlassian pattern delivered in production at InvestCloud.</li>
+        </ul>
+      </div>
+
+      <div class="sec-title">Confluence, Tempo &amp; Audit Reporting</div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Confluence space architecture &amp; documentation standards</div>
+          <div class="proj-tag">Confluence · Knowledge Hub</div>
+        </div>
+        <ul>
+          <li>Structured Confluence spaces for Product, Reporting, Smart/AI, and Atlassian reporting with <strong>consistent page templates, labelling standards, and Atlassian Jira linkage</strong> — turning spaces into reliable, navigable knowledge hubs.</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Tempo integration &amp; Microsoft Power BI capacity reporting</div>
+          <div class="proj-tag">Tempo · Microsoft Power BI · eazyBI · Analytics</div>
+        </div>
+        <ul>
+          <li>Structured <strong>Tempo Accounts</strong> to align with IC Products, client, and department dimensions so time data can be sliced consistently with Atlassian Jira delivery data.</li>
+          <li>Built dataflows into Microsoft Power BI feeding the <strong>Kiplot Tempo – IC Products Breakdown</strong> report used by leadership for capacity and initiative planning.</li>
+          <li>Used <strong>eazyBI</strong> for Atlassian Jira-native ad-hoc reporting on top of Tempo and Atlassian Jira data — enabling Atlassian admins and project managers to build their own time, velocity, and capacity views without leaving Atlassian Jira.</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">Atlassian User Audit &amp; leadership dashboards</div>
+          <div class="proj-tag">Microsoft Power BI · Compliance · Atlassian Jira · Kiplot</div>
+        </div>
+        <ul>
+          <li>Built the <strong>Atlassian User Audit</strong> Microsoft Power BI report — surfacing per-user access, activity levels, and permission tiers across Atlassian Jira, Confluence, and Tempo for compliance reviews and licence cost optimisation.</li>
+          <li>Own Microsoft Power BI models on top of Atlassian Jira, Tempo, and Kiplot data covering <strong>active initiatives, RAG status, PS utilisation, and effort estimates vs. actuals</strong> by product, client, region, and skill set.</li>
+        </ul>
+        <div class="outcome-bar"><span>Impact</span><p>Repeatable, audit-ready view of Atlassian usage and delivery performance — supporting security, compliance, and cost optimisation reviews.</p></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    © 2026 Toby Alexander Rogers · Padua, Italy · <a href="index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>

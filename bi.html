@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Intelligence &amp; Analytics — Toby Alexander Rogers</title>
+<meta name="description" content="Business Intelligence &amp; Analytics — Projects &amp; Contributions by Toby Alexander Rogers. Lead architect of company-wide Microsoft Power BI estate at InvestCloud.">
+<meta name="author" content="Toby Alexander Rogers">
+
+<meta property="og:title" content="Business Intelligence &amp; Analytics — Toby Alexander Rogers">
+<meta property="og:description" content="Lead architect of company-wide Microsoft Power BI estate, multi-source data integration, semantic modelling.">
+<meta property="og:url" content="https://tobyalexanderrogers.com/bi.html">
+<meta property="og:type" content="website">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  a { color: #2b5faa; }
+
+  /* Top navigation */
+  .topnav {
+    background: #0d1729;
+    border-bottom: 1px solid #1a2744;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topnav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topnav .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .topnav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .topnav .nav-links a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .topnav .nav-links a:hover { color: #fff; }
+  .topnav .nav-links a.active {
+    color: #fff;
+    border-bottom-color: #2b5faa;
+  }
+
+  /* Page header */
+  .page-header {
+    background: #1a2744;
+    color: #fff;
+    padding: 40px 0 36px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    font-size: 13px;
+    color: #a8b8d0;
+    line-height: 1.6;
+  }
+  .page-header .meta strong { color: #6fa8f5; font-weight: 600; }
+
+  /* Body layout */
+  .page-body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 36px;
+    padding: 36px 0 48px;
+  }
+
+  /* Sidebar */
+  .sidebar { font-size: 13px; }
+  .sb-section { margin-bottom: 22px; }
+  .sb-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e5e9f2;
+  }
+  .tag-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-size: 11px;
+    color: #1a2744;
+    background: #fff;
+    border: 1px solid #d5dae8;
+    border-radius: 3px;
+    padding: 3px 8px;
+    line-height: 1.3;
+  }
+  .sb-intro {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .outcome-card {
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .outcome-card strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #2b5faa;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+  .outcome-card p {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  /* Main content */
+  .main { min-width: 0; }
+  .sec-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7a8aaa;
+    border-bottom: 1px solid #e5e9f2;
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .sec-title:first-child { margin-top: 0; }
+
+  .intro-box {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.65;
+    background: #f0f5fa;
+    border-left: 3px solid #2b5faa;
+    padding: 14px 18px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 8px;
+  }
+
+  /* Project blocks */
+  .proj { margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid #e8edf5; }
+  .proj:last-child { border-bottom: none; }
+  .proj-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .proj-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a2744;
+  }
+  .proj-tag {
+    font-size: 11px;
+    font-weight: 600;
+    background: #eef2fb;
+    color: #2b5faa;
+    border: 1px solid #c5d2f0;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .proj-obj {
+    font-size: 14px;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .proj ul {
+    padding-left: 20px;
+    margin-bottom: 8px;
+  }
+  .proj li {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+  .proj li strong { color: #1a2744; }
+
+  .outcome-bar {
+    background: #eef7f1;
+    border-left: 3px solid #2d9e6b;
+    border-radius: 0 4px 4px 0;
+    padding: 8px 14px;
+    margin-top: 8px;
+  }
+  .outcome-bar span {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #2d9e6b;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .outcome-bar p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.55;
+  }
+
+  /* Footer */
+  footer {
+    background: #1a2744;
+    color: #a8b8d0;
+    padding: 28px 0;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: #6fa8f5; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .page-body { grid-template-columns: 1fr; gap: 28px; }
+    .topnav .nav-links { gap: 18px; }
+    .page-header h1 { font-size: 22px; }
+    .proj-title { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">Toby Alexander Rogers</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="bi.html" class="active">BI</a></li>
+      <li><a href="atlassian.html">Atlassian</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <h1>Business Intelligence &amp; Analytics</h1>
+    <div class="meta">Projects &amp; Contributions &nbsp;·&nbsp; <strong>Senior Enterprise Solutions Engineer, InvestCloud</strong> &nbsp;·&nbsp; Microsoft Power BI &nbsp;·&nbsp; Snowflake &nbsp;·&nbsp; DAX</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-body">
+
+    <aside class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">BI Tools &amp; Sources</div>
+        <div class="tag-wrap">
+          <span class="tag">Microsoft Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">Power Query (M)</span>
+          <span class="tag">Dataflows</span>
+          <span class="tag">Semantic Modelling</span>
+          <span class="tag">Snowflake</span>
+          <span class="tag">Kiplot</span>
+          <span class="tag">Tempo</span>
+          <span class="tag">HubSpot</span>
+          <span class="tag">SharePoint</span>
+          <span class="tag">UKG</span>
+          <span class="tag">Atlassian Jira</span>
+        </div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Context</div>
+        <p class="sb-intro">Acting as the bridge between business stakeholders and source systems — covering the full BI lifecycle from requirements and data modelling through to production-grade reports with documented governance and stakeholder enablement.</p>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Key Strengths</div>
+        <div class="outcome-card">
+          <strong>End-to-end ownership</strong>
+          <p>From ambiguous business question to production report — dataflows, modelling, layout, documentation, and adoption.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Multi-source integration</strong>
+          <p>Connects and normalises data from Atlassian Jira, Tempo, Kiplot, HubSpot, web analytics, UKG, and SharePoint into unified models.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Actionable design</strong>
+          <p>Reports built around decisions and operational processes — executive KPIs up top, analyst drilldowns below.</p>
+        </div>
+        <div class="outcome-card">
+          <strong>Self-service &amp; governance</strong>
+          <p>Every report documented in Confluence with standardised KPI definitions so teams can own and extend reporting themselves.</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="sec-title">Approach</div>
+      <div class="intro-box">
+        BI work spans the full lifecycle — from requirements sessions with senior stakeholders through to production-grade reports with documented data models and adoption support. Priority is placed on reports that are <strong>actionable</strong>: ones that drive decisions and operational processes, not just visualise data.
+      </div>
+
+      <div class="sec-title">Selected Projects</div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">1. Marketing &amp; Sales performance dashboard</div>
+          <div class="proj-tag">Microsoft Power BI · HubSpot · Web analytics</div>
+        </div>
+        <div class="proj-obj">Objective: give Sales &amp; Marketing leadership a single view of digital funnel performance, unifying website, social, and HubSpot data.</div>
+        <ul>
+          <li>Designed and built an <strong>11-page Microsoft Power BI dashboard</strong> consolidating web analytics, social metrics, and HubSpot into an integrated model with consistent date, campaign, and segment structures.</li>
+          <li>Documented workspace, refresh schedule, dataflows, and ownership in Confluence for ongoing self-service by the Sales &amp; Marketing team.</li>
+        </ul>
+        <div class="outcome-bar"><span>Outcome</span><p>Leadership monitors channel performance, lead generation, and campaign impact in one place with aligned numbers across teams.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">2. Tempo weekly timesheet compliance report</div>
+          <div class="proj-tag">Microsoft Power BI · Tempo · PS &amp; R&amp;D</div>
+        </div>
+        <div class="proj-obj">Objective: improve timesheet compliance across PS and R&amp;D with near-real-time visibility of submission and approval gaps.</div>
+        <ul>
+          <li>Built a three-section report covering: non-submissions; submitted but unapproved; and <strong>no worklogs at all</strong> — surfaced by department, sub-department, and supervisor.</li>
+          <li>Configured a <strong>3-hour refresh cycle</strong> during the submission window with full Confluence documentation for PS/R&amp;D operations ownership.</li>
+        </ul>
+        <div class="outcome-bar"><span>Outcome</span><p>Single operational dashboard driving weekly compliance, reducing payroll risk and improving accuracy of utilisation and cost reporting.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">3. Kiplot / IC Products effort &amp; product reporting</div>
+          <div class="proj-tag">Microsoft Power BI · Kiplot · Tempo · Product</div>
+        </div>
+        <div class="proj-obj">Objective: help Product and leadership understand where effort is going, comparing Kiplot estimates to actual Tempo worklogs.</div>
+        <ul>
+          <li>Developed the <strong>Kiplot Tempo – IC Products Breakdown</strong> report combining initiative data, Tempo worklogs, IC Product mappings, and skill data across three sections: actuals, estimates, and team/skill mapping.</li>
+          <li>Sourced from a curated SharePoint folder and shared dataflows documented for reuse across other reports.</li>
+        </ul>
+        <div class="outcome-bar"><span>Outcome</span><p>Product leaders see effort by product and skill set, compare estimates vs. actuals, and apply insight directly to roadmap and capacity planning.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">4. Atlassian user audit &amp; licence optimisation</div>
+          <div class="proj-tag">Microsoft Power BI · Atlassian Jira · Confluence · Compliance</div>
+        </div>
+        <ul>
+          <li>Built a report showing per-user <strong>access, activity levels, and permission tier</strong> across Atlassian Jira, Confluence, and Tempo — with summary views for licence optimisation, training needs, and executive visibility.</li>
+        </ul>
+        <div class="outcome-bar"><span>Outcome</span><p>Repeatable, audit-ready view of Atlassian usage supporting security reviews and reducing unnecessary licence spend.</p></div>
+      </div>
+
+      <div class="proj">
+        <div class="proj-header">
+          <div class="proj-title">5. PCG operational ticket &amp; alert trends dashboard</div>
+          <div class="proj-tag">Microsoft Power BI · Operations · PCG</div>
+        </div>
+        <ul>
+          <li>Built a weekly operations dashboard with <strong>12-week trend views</strong> (created/solved) and 4-week backlog detail — top-level KPIs for management with drilldowns by group/agent and client/environment using conditional formatting to surface issues quickly.</li>
+        </ul>
+        <div class="outcome-bar"><span>Outcome</span><p>PCG has a single weekly dashboard for operational performance, enabling data-driven prioritisation and escalation decisions.</p></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    © 2026 Toby Alexander Rogers · Padua, Italy · <a href="index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>

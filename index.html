@@ -22,7 +22,55 @@
     color: #333;
     background: #fff;
   }
-  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  /* Top navigation */
+  .topnav {
+    background: #0d1729;
+    border-bottom: 1px solid #1a2744;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topnav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topnav .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .topnav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .topnav .nav-links a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .topnav .nav-links a:hover { color: #fff; }
+  .topnav .nav-links a.active {
+    color: #fff;
+    border-bottom-color: #2b5faa;
+  }
 
   /* Header */
   .header {
@@ -110,6 +158,15 @@
     border-left: 4px solid #2b5faa;
     padding: 20px 24px;
     border-radius: 0 6px 6px 0;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+    transition: border-left-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  }
+  a.project-card:hover {
+    border-left-color: #1e4585;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.08);
+    transform: translateY(-1px);
   }
   .project-card h3 {
     font-size: 18px;
@@ -130,13 +187,11 @@
     line-height: 1.6;
     margin-bottom: 10px;
   }
-  .project-card a {
+  .project-card .card-cta {
     color: #2b5faa;
-    text-decoration: none;
     font-weight: 600;
     font-size: 13px;
   }
-  .project-card a:hover { text-decoration: underline; }
 
   /* CV download */
   .cv-download {
@@ -230,6 +285,18 @@
 </head>
 <body>
 
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">Toby Alexander Rogers</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="bi.html">BI</a></li>
+      <li><a href="atlassian.html">Atlassian</a></li>
+    </ul>
+  </div>
+</nav>
+
 <header class="header">
   <div class="container">
     <div class="header-inner">
@@ -264,35 +331,37 @@
 
 <section>
   <div class="container">
-    <div class="sec-title">Featured Work</div>
-    <h2>Selected projects and contributions</h2>
+    <div class="sec-title">Areas of Practice</div>
+    <h2>Three domains, with a production-AI thread running through all of them</h2>
 
     <div class="projects-grid">
 
-      <div class="project-card">
-        <h3>atlassian-mcp</h3>
-        <div class="tech">Python · FastMCP · httpx · Public open source</div>
+      <a href="ai.html" class="project-card">
+        <h3>AI Engineering &amp; Applied AI</h3>
+        <div class="tech">Claude Code · MCP Integrations · LLM Tooling · Python · AI Governance</div>
         <p>
-          A production-grade Python Model Context Protocol (MCP) server exposing curated Atlassian Jira data to AI assistants such as Claude. Read-only by design, with custom JQL primitives, full architecture documentation, and demonstration of senior engineering practice including scope discipline and security boundaries. The repository serves as a verifiable artefact of the agentic patterns delivered in production at InvestCloud.
+          Production Claude Code and Model Context Protocol (MCP) integrations at InvestCloud. Includes the public Python <strong>atlassian-mcp</strong> server, the co-developed Claude Usage governance report, agentic Atlassian workflows, and Platform Community of Practice contributions — driving a documented ~2× capacity uplift on BI and Atlassian delivery.
         </p>
-        <a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">View on GitHub →</a>
-      </div>
+        <span class="card-cta">Read more →</span>
+      </a>
 
-      <div class="project-card">
-        <h3>Claude Usage Power BI Report</h3>
-        <div class="tech">Microsoft Power BI · DAX · Snowflake · AI Governance</div>
+      <a href="bi.html" class="project-card">
+        <h3>Business Intelligence &amp; Analytics</h3>
+        <div class="tech">Microsoft Power BI · DAX · Snowflake · Semantic Modelling · Multi-Source Integration</div>
         <p>
-          Co-developed governance dashboard providing engineering and AI leadership with visibility into Claude Code adoption, licence consumption, and rollout patterns across the InvestCloud organisation. The report closes the feedback loop on AI investment by surfacing adoption metrics to leadership in real time, directly informing decisions on scale, reliability, and cost optimisation of the wider AI rollout.
+          Lead architect of the agency-wide Microsoft Power BI Team solution at InvestCloud. Includes the <strong>11-page Marketing &amp; Sales dashboard</strong>, Tempo timesheet compliance reporting, Kiplot/IC Products effort analysis, the Atlassian User Audit, and PCG operational trends — all governed end-to-end with documented Confluence ownership.
         </p>
-      </div>
+        <span class="card-cta">Read more →</span>
+      </a>
 
-      <div class="project-card">
-        <h3>11-Page Marketing &amp; Sales Dashboard</h3>
-        <div class="tech">Microsoft Power BI · HubSpot · Snowflake · Multi-Source Integration</div>
+      <a href="atlassian.html" class="project-card">
+        <h3>Atlassian Platform</h3>
+        <div class="tech">Atlassian Jira · JSM · Confluence · Tempo · Atlassian Guard · ScriptRunner · REST APIs</div>
         <p>
-          Enterprise BI deliverable consolidating digital funnel data, social metrics, and HubSpot pipeline information into a single governed Microsoft Power BI semantic model. Documented self-service for the Sales and Marketing leadership team. Demonstrates the multi-source integration and stakeholder enablement patterns characteristic of senior Marketing Performance and Growth reporting across fintech and scale-up environments.
+          Sole administrator of the agency-wide Atlassian Team solution at InvestCloud (Cloud + Data Center). Includes the <strong>IC Products taxonomy</strong>, Change Management JSM projects, Atlassian Guard with AD/Entra ID SSO and SCIM provisioning, REST API integrations, and the Microsoft Power BI reporting layer over Atlassian Jira and Tempo data.
         </p>
-      </div>
+        <span class="card-cta">Read more →</span>
+      </a>
 
     </div>
   </div>
