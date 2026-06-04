@@ -241,6 +241,33 @@
     line-height: 1.55;
   }
 
+  /* Project visuals */
+  .project-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 16px auto;
+    border-radius: 6px;
+    border: 1px solid #e5e9f2;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.1);
+  }
+  pre.code-block {
+    background: #1a2744;
+    color: #d8dde9;
+    padding: 16px 18px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin: 16px 0;
+  }
+  pre.code-block .code-keyword { color: #6fa8f5; font-weight: 600; }
+  pre.code-block .code-string { color: #b5e3a8; }
+  pre.code-block .code-comment { color: #7a8aaa; font-style: italic; }
+  pre.code-block .code-function { color: #ffd580; }
+  pre.code-block .code-decorator { color: #ffd580; }
+
   /* Footer */
   footer {
     background: #1a2744;
@@ -382,6 +409,27 @@
           <li>Designed and built a read-only <strong>Python MCP server</strong> exposing curated JQL primitives for Atlassian Jira access via Claude — backend service architecture with FastMCP + httpx + python-dotenv.</li>
           <li>Documented architecture, README, demo screenshot, and explicit "not in scope" framing — public artefact at <strong><a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">github.com/Toby-Rogers/atlassian-mcp</a></strong> demonstrating senior engineering practice.</li>
         </ul>
+
+        <img src="atlassian-mcp-demo.png" alt="atlassian-mcp demo: Claude querying Atlassian Jira via MCP" class="project-image">
+
+<pre class="code-block"><span class="code-comment"># Example: a curated JQL primitive exposed as an MCP tool via FastMCP</span>
+<span class="code-keyword">from</span> fastmcp <span class="code-keyword">import</span> FastMCP
+<span class="code-keyword">import</span> httpx
+<span class="code-keyword">import</span> os
+
+mcp = FastMCP(<span class="code-string">"atlassian-mcp"</span>)
+
+<span class="code-decorator">@mcp.tool()</span>
+<span class="code-keyword">def</span> <span class="code-function">list_open_tickets_by_component</span>(component: str, limit: int = 10) -> dict:
+    <span class="code-string">"""List open Atlassian Jira issues for a given component via JQL."""</span>
+    jql = <span class="code-string">f'component = "{component}" AND statusCategory != Done'</span>
+    response = httpx.get(
+        <span class="code-string">f"{os.environ['JIRA_URL']}/rest/api/3/search"</span>,
+        params={<span class="code-string">"jql"</span>: jql, <span class="code-string">"maxResults"</span>: limit},
+        auth=(os.environ[<span class="code-string">'JIRA_USER'</span>], os.environ[<span class="code-string">'JIRA_TOKEN'</span>]),
+    )
+    <span class="code-keyword">return</span> response.json()</pre>
+
         <div class="outcome-bar"><span>Impact</span><p>Publicly verifiable demonstration of the same agentic Atlassian pattern delivered in production — backend services, AI integration patterns, and product scope discipline as a portfolio artefact.</p></div>
       </div>
 

@@ -241,6 +241,23 @@
     line-height: 1.55;
   }
 
+  /* Diagram */
+  .diagram-wrap {
+    background: #fafbfd;
+    border: 1px solid #e5e9f2;
+    border-radius: 6px;
+    padding: 18px 14px;
+    margin: 12px 0 18px;
+  }
+  .diagram-wrap svg { display: block; width: 100%; max-width: 640px; margin: 0 auto; height: auto; }
+  .diagram-caption {
+    font-size: 12px;
+    color: #7a8aaa;
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
   /* Footer */
   footer {
     background: #1a2744;
@@ -333,6 +350,85 @@
       <div class="sec-title">Approach</div>
       <div class="intro-box">
         BI work spans the full lifecycle — from requirements sessions with senior stakeholders through to production-grade reports with documented data models and adoption support. Priority is placed on reports that are <strong>actionable</strong>: ones that drive decisions and operational processes, not just visualise data.
+      </div>
+
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Multi-source data flow architecture diagram">
+          <defs>
+            <marker id="bi-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a8aaa"/>
+            </marker>
+          </defs>
+
+          <!-- Sources column -->
+          <g font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1a2744">
+            <rect x="10" y="10" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="27" text-anchor="middle">Atlassian Jira</text>
+
+            <rect x="10" y="44" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="61" text-anchor="middle">Tempo</text>
+
+            <rect x="10" y="78" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="95" text-anchor="middle">HubSpot</text>
+
+            <rect x="10" y="112" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="129" text-anchor="middle">UKG</text>
+
+            <rect x="10" y="146" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="163" text-anchor="middle">SharePoint</text>
+
+            <rect x="10" y="180" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="197" text-anchor="middle">Web Analytics</text>
+
+            <rect x="10" y="214" width="110" height="26" rx="4" fill="#fff" stroke="#2b5faa" stroke-width="1"/>
+            <text x="65" y="231" text-anchor="middle">Kiplot</text>
+          </g>
+
+          <!-- Source-cluster label -->
+          <text x="65" y="252" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7a8aaa" font-weight="700" letter-spacing="0.8">8+ SOURCES</text>
+
+          <!-- Aggregation lines into ETL -->
+          <g stroke="#a8b8d0" stroke-width="1" fill="none">
+            <path d="M 120 23 Q 175 125 200 125"/>
+            <path d="M 120 57 Q 175 125 200 125"/>
+            <path d="M 120 91 Q 175 125 200 125"/>
+            <path d="M 120 125 L 200 125"/>
+            <path d="M 120 159 Q 175 125 200 125"/>
+            <path d="M 120 193 Q 175 125 200 125"/>
+            <path d="M 120 227 Q 175 125 200 125"/>
+          </g>
+
+          <!-- ETL box -->
+          <rect x="200" y="100" width="110" height="50" rx="4" fill="#f0f5fa" stroke="#2b5faa" stroke-width="1.5"/>
+          <text x="255" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#1a2744">Power Query (M)</text>
+          <text x="255" y="138" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#5a6a88">+ Dataflows</text>
+
+          <!-- Arrow ETL → Storage -->
+          <path d="M 310 125 L 350 125" stroke="#7a8aaa" stroke-width="1.5" fill="none" marker-end="url(#bi-arrow)"/>
+
+          <!-- Storage box -->
+          <rect x="350" y="100" width="110" height="50" rx="4" fill="#f0f5fa" stroke="#2b5faa" stroke-width="1.5"/>
+          <text x="405" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#1a2744">Snowflake</text>
+          <text x="405" y="138" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#5a6a88">+ DAX Model</text>
+
+          <!-- Arrow Storage → Output -->
+          <path d="M 460 125 L 500 125" stroke="#7a8aaa" stroke-width="1.5" fill="none" marker-end="url(#bi-arrow)"/>
+
+          <!-- Output box -->
+          <rect x="500" y="100" width="130" height="50" rx="4" fill="#1a2744" stroke="#1a2744" stroke-width="1.5"/>
+          <text x="565" y="120" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#fff">Microsoft Power BI</text>
+          <text x="565" y="138" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#a8b8d0">Reports + Self-service</text>
+
+          <!-- Stage labels under boxes -->
+          <text x="255" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#7a8aaa" font-weight="700" letter-spacing="0.7">EXTRACT &amp; TRANSFORM</text>
+          <text x="405" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#7a8aaa" font-weight="700" letter-spacing="0.7">SEMANTIC LAYER</text>
+          <text x="565" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#7a8aaa" font-weight="700" letter-spacing="0.7">PRESENTATION</text>
+
+          <!-- Governance bar -->
+          <rect x="200" y="210" width="430" height="30" rx="4" fill="#eef7f1" stroke="#2d9e6b" stroke-width="1"/>
+          <text x="415" y="229" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#2d9e6b">Confluence documentation · KPI definitions · Stakeholder ownership</text>
+        </svg>
+        <div class="diagram-caption">Multi-source semantic-model architecture: end-to-end data flow with governance layer.</div>
       </div>
 
       <div class="sec-title">Selected Projects</div>
