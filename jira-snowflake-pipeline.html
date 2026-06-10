@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jira → Snowflake Data Pipeline — Toby Alexander Rogers</title>
+<meta name="description" content="Jira → Snowflake Data Pipeline — a serverless analytics proof of concept spanning Atlassian, BI and applied data engineering. By Toby Alexander Rogers.">
+<meta name="author" content="Toby Alexander Rogers">
+
+<meta property="og:title" content="Jira → Snowflake Data Pipeline — Toby Alexander Rogers">
+<meta property="og:description" content="Serverless Jira → S3 → Snowflake → Power BI analytics pipeline. A cross-domain project spanning Atlassian, BI and data engineering.">
+<meta property="og:url" content="https://tobyalexanderrogers.com/jira-snowflake-pipeline.html">
+<meta property="og:type" content="website">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  a { color: #2b5faa; }
+
+  /* Top navigation */
+  .topnav {
+    background: #0d1729;
+    border-bottom: 1px solid #1a2744;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topnav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topnav .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .topnav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .topnav .nav-links a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .topnav .nav-links a:hover { color: #fff; }
+  .topnav .nav-links a.active {
+    color: #fff;
+    border-bottom-color: #2b5faa;
+  }
+
+  /* Page header */
+  .page-header {
+    background: #1a2744;
+    color: #fff;
+    padding: 40px 0 36px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    font-size: 13px;
+    color: #a8b8d0;
+    line-height: 1.6;
+  }
+  .page-header .meta strong { color: #6fa8f5; font-weight: 600; }
+
+  /* Sections */
+  section { padding: 40px 0 0; }
+  section:last-of-type { padding-bottom: 8px; }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a2744;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2::before {
+    content: "";
+    width: 6px;
+    height: 22px;
+    border-radius: 3px;
+    background: #2b5faa;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  p.lead {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.7;
+    background: #f0f5fa;
+    border-left: 3px solid #2b5faa;
+    padding: 14px 18px;
+    border-radius: 0 4px 4px 0;
+  }
+  p.lead strong { color: #1a2744; }
+
+  code {
+    background: #eef2fb;
+    color: #1a2744;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12.5px;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e5e9f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.06);
+  }
+
+  /* Architecture diagram — scales to fit, no scroll bar */
+  .diagram { padding: 22px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .grp { font-size: 13px; font-weight: 700; fill: #8a93a3; letter-spacing: .02em; }
+  .ttl { font-size: 15px; font-weight: 700; }
+  .sub { font-size: 11px; fill: #6b7280; }
+  .pipe { font-size: 11px; font-weight: 600; fill: #8a93a3; }
+
+  /* Pipeline stage cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  .stage { padding: 18px 18px 16px; }
+  .stage .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .stage h3 { margin: 0 0 6px; font-size: 17px; color: #1a2744; }
+  .stage p { margin: 0; font-size: 14px; color: #555; line-height: 1.55; }
+  .t-jira   { color:#1a56db; background:#e3edff; }
+  .t-lambda { color:#0b815a; background:#d6f4e7; }
+  .t-s3     { color:#b45309; background:#fdecd2; }
+  .t-pipe   { color:#0e7490; background:#d6f0f5; }
+  .t-raw    { color:#b91c1c; background:#fbe1e1; }
+  .t-mart   { color:#6d28d9; background:#e8e3fb; }
+  .t-pbi    { color:#a16207; background:#fdeccb; }
+
+  /* Design principles */
+  ul.principles { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  ul.principles li {
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-left: 3px solid #2b5faa;
+    border-radius: 0 4px 4px 0;
+    padding: 13px 16px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+  }
+  ul.principles li strong { color: #1a2744; }
+
+  /* Technology chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip {
+    background: #fff;
+    border: 1px solid #d5dae8;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  /* Explore / cross-links */
+  .explore { display: flex; flex-wrap: wrap; gap: 12px; }
+  .explore a {
+    flex: 1;
+    min-width: 200px;
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-left: 3px solid #2b5faa;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: #1a2744;
+    font-weight: 600;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .explore a:hover { background: #f0f5fa; border-left-color: #1e4585; }
+  .explore a span { display: block; font-size: 12px; font-weight: 500; color: #555; margin-top: 3px; }
+
+  /* Footer */
+  footer {
+    background: #1a2744;
+    color: #a8b8d0;
+    padding: 28px 0;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 48px;
+  }
+  footer a { color: #6fa8f5; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .topnav .nav-links { gap: 18px; }
+    .page-header h1 { font-size: 22px; }
+    h2 { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">Toby Alexander Rogers</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="bi.html">BI</a></li>
+      <li><a href="atlassian.html">Atlassian</a></li>
+      <li><a href="jira-snowflake-pipeline.html" class="active">Project</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <h1>Jira → Snowflake Data Pipeline</h1>
+    <div class="meta">Featured Project &nbsp;·&nbsp; <strong>Data Engineering Proof of Concept</strong> &nbsp;·&nbsp; Spans Atlassian · BI · Applied AI</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section>
+    <h2>Overview</h2>
+    <p class="lead">
+      The goal is to stand up the first end-to-end <strong>Jira → S3 → Snowflake → Power BI</strong>
+      flow as a proof of concept — establishing a repeatable, governed pattern for moving operational
+      data onto a central warehouse, with all transformation performed in the data layer rather than in
+      the BI tool. The single-purpose Jira flow proves out the architecture before extending the same
+      pattern to other sources.
+    </p>
+  </section>
+
+  <section>
+    <h2>Architecture</h2>
+    <div class="card diagram">
+      <svg viewBox="0 0 880 400" role="img" aria-label="Pipeline architecture diagram">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#9aa1ab"></path>
+          </marker>
+        </defs>
+
+        <!-- group frames -->
+        <rect x="160" y="40" width="362" height="330" rx="14" fill="none" stroke="#cbd2dc" stroke-dasharray="6 5"></rect>
+        <text x="341" y="62" text-anchor="middle" class="grp">AWS Account (us-east-1)</text>
+
+        <rect x="552" y="70" width="316" height="300" rx="14" fill="none" stroke="#cbd2dc" stroke-dasharray="6 5"></rect>
+        <text x="710" y="92" text-anchor="middle" class="grp">Snowflake</text>
+
+        <!-- arrows -->
+        <line x1="136" y1="179" x2="186" y2="179" stroke="#9aa1ab" stroke-width="2" marker-end="url(#arrow)"></line>
+        <line x1="312" y1="179" x2="371" y2="179" stroke="#9aa1ab" stroke-width="2" marker-end="url(#arrow)"></line>
+        <line x1="497" y1="174" x2="581" y2="151" stroke="#9aa1ab" stroke-width="2" marker-end="url(#arrow)"></line>
+        <text x="540" y="143" text-anchor="middle" class="pipe">Snowpipe</text>
+        <line x1="702" y1="147" x2="721" y2="147" stroke="#9aa1ab" stroke-width="2" marker-end="url(#arrow)"></line>
+        <line x1="787" y1="178" x2="787" y2="288" stroke="#9aa1ab" stroke-width="2" marker-end="url(#arrow)"></line>
+
+        <!-- EventBridge dashed connector -->
+        <line x1="250" y1="210" x2="250" y2="298" stroke="#b6bdc8" stroke-width="2" stroke-dasharray="5 4"></line>
+
+        <!-- nodes -->
+        <!-- Jira -->
+        <g>
+          <rect x="20" y="151" width="116" height="56" rx="11" fill="#e3edff" stroke="#b9d0ff"></rect>
+          <text x="78" y="176" text-anchor="middle" class="ttl" fill="#1a56db">Jira</text>
+          <text x="78" y="193" text-anchor="middle" class="sub">Atlassian API</text>
+        </g>
+        <!-- Lambda -->
+        <g>
+          <rect x="190" y="151" width="122" height="56" rx="11" fill="#d6f4e7" stroke="#a7e3cb"></rect>
+          <text x="251" y="176" text-anchor="middle" class="ttl" fill="#0b815a">Lambda</text>
+          <text x="251" y="193" text-anchor="middle" class="sub">Python extractor</text>
+        </g>
+        <!-- S3 -->
+        <g>
+          <rect x="375" y="151" width="122" height="56" rx="11" fill="#fdecd2" stroke="#f5d29a"></rect>
+          <text x="436" y="176" text-anchor="middle" class="ttl" fill="#b45309">S3 Bucket</text>
+          <text x="436" y="193" text-anchor="middle" class="sub">raw/jira/*.json</text>
+        </g>
+        <!-- Raw DB -->
+        <g>
+          <rect x="585" y="119" width="117" height="56" rx="11" fill="#fbe1e1" stroke="#f3bcbc"></rect>
+          <text x="643" y="144" text-anchor="middle" class="ttl" fill="#b91c1c">Raw DB</text>
+          <text x="643" y="161" text-anchor="middle" class="sub">jira_raw schema</text>
+        </g>
+        <!-- Mart DB -->
+        <g>
+          <rect x="729" y="119" width="120" height="56" rx="11" fill="#e8e3fb" stroke="#cdbff5"></rect>
+          <text x="789" y="144" text-anchor="middle" class="ttl" fill="#6d28d9">Mart DB</text>
+          <text x="789" y="161" text-anchor="middle" class="sub">reporting views</text>
+        </g>
+        <!-- Power BI -->
+        <g>
+          <rect x="729" y="289" width="120" height="56" rx="11" fill="#fdeccb" stroke="#f5d99a"></rect>
+          <text x="789" y="314" text-anchor="middle" class="ttl" fill="#a16207">Power BI</text>
+          <text x="789" y="331" text-anchor="middle" class="sub">dashboards</text>
+        </g>
+        <!-- EventBridge -->
+        <g>
+          <rect x="175" y="298" width="150" height="52" rx="11" fill="#f4f5f7" stroke="#cbd2dc" stroke-dasharray="5 4"></rect>
+          <text x="250" y="320" text-anchor="middle" class="ttl" fill="#6b7280" style="font-size:13px">EventBridge schedule</text>
+          <text x="250" y="337" text-anchor="middle" class="sub">e.g. every 15 min</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pipeline stages</h2>
+    <div class="grid">
+      <div class="card stage">
+        <span class="tag t-jira">Source</span>
+        <h3>Jira (Atlassian API)</h3>
+        <p>Issues are pulled from the Jira REST API using the enhanced <code>/search/jql</code> endpoint with token-based pagination.</p>
+      </div>
+      <div class="card stage">
+        <span class="tag t-lambda">Extract</span>
+        <h3>AWS Lambda</h3>
+        <p>A Python extractor fetches issues for a target project and serialises them as newline-delimited JSON. Authenticates to storage via its IAM execution role.</p>
+      </div>
+      <div class="card stage">
+        <span class="tag t-s3">Land</span>
+        <h3>Amazon S3</h3>
+        <p>Raw issue files land in a date-partitioned key layout (<code>raw/jira/issues/YYYY/MM/DD/…</code>) — an immutable landing zone for the warehouse.</p>
+      </div>
+      <div class="card stage">
+        <span class="tag t-pipe">Ingest</span>
+        <h3>Snowpipe</h3>
+        <p>Auto-ingest is triggered by S3 object-create events, streaming new files into the warehouse without manual loads.</p>
+      </div>
+      <div class="card stage">
+        <span class="tag t-raw">Store</span>
+        <h3>Raw DB · jira_raw</h3>
+        <p>Files land as raw JSON in a Raw database, preserving the source payload exactly as received.</p>
+      </div>
+      <div class="card stage">
+        <span class="tag t-mart">Model</span>
+        <h3>Mart DB · reporting views</h3>
+        <p>SQL transforms flatten and shape the raw data into clean reporting tables and views (issue summary, open-by-assignee, cycle time).</p>
+      </div>
+      <div class="card stage">
+        <span class="tag t-pbi">Consume</span>
+        <h3>Power BI</h3>
+        <p>Dashboards read the Mart layer directly. No transformation happens in the BI tool — it only visualises governed models.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Design principles</h2>
+    <ul class="principles">
+      <li><strong>Warehouse-first transformation.</strong> All data preparation and aggregation lives in the Snowflake layer; the BI tool only reads — for supportability, scalability, and consistency.</li>
+      <li><strong>Proof-of-concept first.</strong> Each hop is validated manually before it is automated — confirm files land, then confirm ingest, then enable scheduling.</li>
+      <li><strong>Role-based authentication.</strong> The extractor relies on its Lambda execution role for cloud access — no credentials are stored in code or configuration.</li>
+      <li><strong>Modern, durable API usage.</strong> Uses Jira's enhanced <code>/search/jql</code> endpoint with token pagination, replacing the deprecated offset-based search.</li>
+      <li><strong>Streaming-friendly format.</strong> Output is newline-delimited JSON (one issue per line), matching the warehouse's native JSON ingest.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Technology</h2>
+    <div class="chips">
+      <span class="chip">Python</span>
+      <span class="chip">AWS Lambda</span>
+      <span class="chip">Amazon S3</span>
+      <span class="chip">Amazon EventBridge</span>
+      <span class="chip">boto3</span>
+      <span class="chip">Snowflake</span>
+      <span class="chip">Snowpipe</span>
+      <span class="chip">Power BI</span>
+      <span class="chip">Jira REST API</span>
+      <span class="chip">NDJSON</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Explore the domains</h2>
+    <div class="explore">
+      <a href="atlassian.html">Atlassian Platform<span>The governed Jira source &amp; admin →</span></a>
+      <a href="bi.html">BI &amp; Analytics<span>Power BI architecture &amp; modelling →</span></a>
+      <a href="ai.html">AI Engineering<span>Claude Code, MCP &amp; automation →</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    © 2026 Toby Alexander Rogers · Padua, Italy · <a href="index.html">Back to home</a>
+  </div>
+</footer>
+
+</body>
+</html>
