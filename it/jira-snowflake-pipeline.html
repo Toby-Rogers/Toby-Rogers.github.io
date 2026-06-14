@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jira → Snowflake Data Pipeline — Toby Alexander Rogers</title>
-<meta name="description" content="Jira → Snowflake Data Pipeline — a serverless analytics proof of concept spanning Atlassian, BI and applied data engineering. By Toby Alexander Rogers.">
+<title>Pipeline di dati Jira → Snowflake — Toby Alexander Rogers</title>
+<meta name="description" content="Pipeline di dati Jira → Snowflake — un proof of concept di analytics serverless che abbraccia Atlassian, BI e data engineering applicato. Di Toby Alexander Rogers.">
 <meta name="author" content="Toby Alexander Rogers">
 
-<meta property="og:title" content="Jira → Snowflake Data Pipeline — Toby Alexander Rogers">
-<meta property="og:description" content="Serverless Jira → S3 → Snowflake → Power BI analytics pipeline. A cross-domain project spanning Atlassian, BI and data engineering.">
-<meta property="og:url" content="https://tobyalexanderrogers.com/jira-snowflake-pipeline.html">
+<meta property="og:title" content="Pipeline di dati Jira → Snowflake — Toby Alexander Rogers">
+<meta property="og:description" content="Pipeline di analytics serverless Jira → S3 → Snowflake → Power BI. Un progetto trasversale che abbraccia Atlassian, BI e data engineering.">
+<meta property="og:url" content="https://tobyalexanderrogers.com/it/jira-snowflake-pipeline.html">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -263,39 +264,39 @@
       <li><a href="ai.html">AI</a></li>
       <li><a href="bi.html">BI</a></li>
       <li><a href="atlassian.html">Atlassian</a></li>
-      <li><a href="jira-snowflake-pipeline.html" class="active">Project</a></li>
+      <li><a href="jira-snowflake-pipeline.html" class="active">Progetto</a></li>
     </ul>
     <div class="lang-switch">
-      <a href="jira-snowflake-pipeline.html" class="active">EN</a>
-      <a href="it/jira-snowflake-pipeline.html">IT</a>
+      <a href="../jira-snowflake-pipeline.html">EN</a>
+      <a href="jira-snowflake-pipeline.html" class="active">IT</a>
     </div>
   </div>
 </nav>
 
 <header class="page-header">
   <div class="container">
-    <h1>Jira → Snowflake Data Pipeline</h1>
-    <div class="meta">Featured Project &nbsp;·&nbsp; <strong>Data Engineering Proof of Concept</strong> &nbsp;·&nbsp; Spans Atlassian · BI · Applied AI</div>
+    <h1>Pipeline di dati Jira → Snowflake</h1>
+    <div class="meta">Progetto in evidenza &nbsp;·&nbsp; <strong>Proof of Concept di Data Engineering</strong> &nbsp;·&nbsp; Abbraccia Atlassian · BI · AI applicata</div>
   </div>
 </header>
 
 <div class="container">
 
   <section>
-    <h2>Overview</h2>
+    <h2>Panoramica</h2>
     <p class="lead">
-      The goal is to stand up the first end-to-end <strong>Jira → S3 → Snowflake → Power BI</strong>
-      flow as a proof of concept — establishing a repeatable, governed pattern for moving operational
-      data onto a central warehouse, with all transformation performed in the data layer rather than in
-      the BI tool. The single-purpose Jira flow proves out the architecture before extending the same
-      pattern to other sources.
+      L'obiettivo è realizzare il primo flusso end-to-end <strong>Jira → S3 → Snowflake → Power BI</strong>
+      come proof of concept — stabilendo un pattern ripetibile e governato per spostare i dati operativi
+      su un warehouse centrale, con tutte le trasformazioni eseguite nel livello dati anziché nello
+      strumento di BI. Il flusso Jira a scopo unico convalida l'architettura prima di estendere lo stesso
+      pattern ad altre sorgenti.
     </p>
   </section>
 
   <section>
-    <h2>Architecture</h2>
+    <h2>Architettura</h2>
     <div class="card diagram">
-      <svg viewBox="0 0 880 400" role="img" aria-label="Pipeline architecture diagram">
+      <svg viewBox="0 0 880 400" role="img" aria-label="Diagramma dell'architettura della pipeline">
         <defs>
           <marker id="arrow" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto" markerUnits="strokeWidth">
             <path d="M0,0 L8,3 L0,6 Z" fill="#9aa1ab"></path>
@@ -368,59 +369,59 @@
   </section>
 
   <section>
-    <h2>Pipeline stages</h2>
+    <h2>Fasi della pipeline</h2>
     <div class="grid">
       <div class="card stage">
-        <span class="tag t-jira">Source</span>
+        <span class="tag t-jira">Sorgente</span>
         <h3>Jira (Atlassian API)</h3>
-        <p>Issues are pulled from the Jira REST API using the enhanced <code>/search/jql</code> endpoint with token-based pagination.</p>
+        <p>Le issue vengono estratte dalla REST API di Jira usando l'endpoint avanzato <code>/search/jql</code> con paginazione basata su token.</p>
       </div>
       <div class="card stage">
-        <span class="tag t-lambda">Extract</span>
+        <span class="tag t-lambda">Estrazione</span>
         <h3>AWS Lambda</h3>
-        <p>A Python extractor fetches issues for a target project and serialises them as newline-delimited JSON. Authenticates to storage via its IAM execution role.</p>
+        <p>Un extractor in Python recupera le issue di un progetto target e le serializza come JSON delimitato da newline. Si autentica allo storage tramite il suo ruolo di esecuzione IAM.</p>
       </div>
       <div class="card stage">
-        <span class="tag t-s3">Land</span>
+        <span class="tag t-s3">Atterraggio</span>
         <h3>Amazon S3</h3>
-        <p>Raw issue files land in a date-partitioned key layout (<code>raw/jira/issues/YYYY/MM/DD/…</code>) — an immutable landing zone for the warehouse.</p>
+        <p>I file grezzi delle issue atterrano in una struttura di key partizionata per data (<code>raw/jira/issues/YYYY/MM/DD/…</code>) — una landing zone immutabile per il warehouse.</p>
       </div>
       <div class="card stage">
-        <span class="tag t-pipe">Ingest</span>
+        <span class="tag t-pipe">Ingestione</span>
         <h3>Snowpipe</h3>
-        <p>Auto-ingest is triggered by S3 object-create events, streaming new files into the warehouse without manual loads.</p>
+        <p>L'auto-ingest è attivato dagli eventi di creazione oggetto di S3, trasferendo in streaming i nuovi file nel warehouse senza caricamenti manuali.</p>
       </div>
       <div class="card stage">
-        <span class="tag t-raw">Store</span>
+        <span class="tag t-raw">Archiviazione</span>
         <h3>Raw DB · jira_raw</h3>
-        <p>Files land as raw JSON in a Raw database, preserving the source payload exactly as received.</p>
+        <p>I file atterrano come JSON grezzo in un database Raw, preservando il payload sorgente esattamente come ricevuto.</p>
       </div>
       <div class="card stage">
-        <span class="tag t-mart">Model</span>
+        <span class="tag t-mart">Modellazione</span>
         <h3>Mart DB · reporting views</h3>
-        <p>SQL transforms flatten and shape the raw data into clean reporting tables and views (issue summary, open-by-assignee, cycle time).</p>
+        <p>Le trasformazioni SQL appiattiscono e modellano i dati grezzi in tabelle e viste di reporting pulite (riepilogo issue, aperte per assegnatario, cycle time).</p>
       </div>
       <div class="card stage">
-        <span class="tag t-pbi">Consume</span>
+        <span class="tag t-pbi">Consumo</span>
         <h3>Power BI</h3>
-        <p>Dashboards read the Mart layer directly. No transformation happens in the BI tool — it only visualises governed models.</p>
+        <p>Le dashboard leggono direttamente il livello Mart. Nessuna trasformazione avviene nello strumento di BI — si limita a visualizzare modelli governati.</p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Design principles</h2>
+    <h2>Principi di progettazione</h2>
     <ul class="principles">
-      <li><strong>Warehouse-first transformation.</strong> All data preparation and aggregation lives in the Snowflake layer; the BI tool only reads — for supportability, scalability, and consistency.</li>
-      <li><strong>Proof-of-concept first.</strong> Each hop is validated manually before it is automated — confirm files land, then confirm ingest, then enable scheduling.</li>
-      <li><strong>Role-based authentication.</strong> The extractor relies on its Lambda execution role for cloud access — no credentials are stored in code or configuration.</li>
-      <li><strong>Modern, durable API usage.</strong> Uses Jira's enhanced <code>/search/jql</code> endpoint with token pagination, replacing the deprecated offset-based search.</li>
-      <li><strong>Streaming-friendly format.</strong> Output is newline-delimited JSON (one issue per line), matching the warehouse's native JSON ingest.</li>
+      <li><strong>Trasformazione warehouse-first.</strong> Tutta la preparazione e l'aggregazione dei dati risiede nel livello Snowflake; lo strumento di BI si limita a leggere — per supportabilità, scalabilità e coerenza.</li>
+      <li><strong>Prima il proof of concept.</strong> Ogni passaggio viene convalidato manualmente prima di essere automatizzato — si conferma che i file atterrino, poi si conferma l'ingestione, infine si abilita la pianificazione.</li>
+      <li><strong>Autenticazione basata su ruoli.</strong> L'extractor si affida al suo ruolo di esecuzione Lambda per l'accesso al cloud — nessuna credenziale è memorizzata nel codice o nella configurazione.</li>
+      <li><strong>Uso di API moderne e durature.</strong> Utilizza l'endpoint avanzato <code>/search/jql</code> di Jira con paginazione a token, in sostituzione della ricerca basata su offset ormai deprecata.</li>
+      <li><strong>Formato adatto allo streaming.</strong> L'output è JSON delimitato da newline (una issue per riga), in linea con l'ingestione JSON nativa del warehouse.</li>
     </ul>
   </section>
 
   <section>
-    <h2>Technology</h2>
+    <h2>Tecnologie</h2>
     <div class="chips">
       <span class="chip">Python</span>
       <span class="chip">AWS Lambda</span>
@@ -436,11 +437,11 @@
   </section>
 
   <section>
-    <h2>Explore the domains</h2>
+    <h2>Esplora i domini</h2>
     <div class="explore">
-      <a href="atlassian.html">Atlassian Platform<span>The governed Jira source &amp; admin →</span></a>
-      <a href="bi.html">BI &amp; Analytics<span>Power BI architecture &amp; modelling →</span></a>
-      <a href="ai.html">AI Engineering<span>Claude Code, MCP &amp; automation →</span></a>
+      <a href="atlassian.html">Piattaforma Atlassian<span>La sorgente Jira governata e l'amministrazione →</span></a>
+      <a href="bi.html">BI &amp; Analytics<span>Architettura e modellazione Power BI →</span></a>
+      <a href="ai.html">AI Engineering<span>Claude Code, MCP e automazione →</span></a>
     </div>
   </section>
 
@@ -448,8 +449,8 @@
 
 <footer>
   <div class="container">
-    © 2026 Toby Alexander Rogers · Padua, Italy · <a href="index.html">Back to home</a><br>
-    <span style="opacity:0.7;">Designed &amp; built by Toby Alexander Rogers</span>
+    © 2026 Toby Alexander Rogers · Padova, Italia · <a href="index.html">Torna alla home</a><br>
+    <span style="opacity:0.7;">Progettato &amp; realizzato da Toby Alexander Rogers</span>
   </div>
 </footer>
 
