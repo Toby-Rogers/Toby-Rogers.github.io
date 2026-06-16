@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I Use Claude Code to Manage Projects — Toby Alexander Rogers</title>
+<meta name="description" content="How Toby Alexander Rogers uses Claude Code day-to-day to run enterprise projects: a single repository as control centre, project-as-documentation, reusable skills, CLI, and MCP integrations — with Git as the synchronisation backbone.">
+<meta name="author" content="Toby Alexander Rogers">
+
+<meta property="og:title" content="How I Use Claude Code to Manage Projects — Toby Alexander Rogers">
+<meta property="og:description" content="A repository-as-control-centre workflow: project-as-documentation, reusable skills, CLI, MCP integrations, and Git synchronisation — production AI-augmented delivery.">
+<meta property="og:url" content="https://tobyalexanderrogers.com/claude-code-workflow.html">
+<meta property="og:type" content="website">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    background: #fff;
+  }
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  a { color: #2b5faa; }
+
+  /* Top navigation */
+  .topnav {
+    background: #0d1729;
+    border-bottom: 1px solid #1a2744;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topnav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topnav .brand {
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .topnav .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .topnav .nav-links a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .topnav .nav-links a:hover { color: #fff; }
+  .topnav .nav-links a.active {
+    color: #fff;
+    border-bottom-color: #2b5faa;
+  }
+  .topnav .lang-switch { display: flex; gap: 6px; align-items: center; }
+  .topnav .lang-switch a {
+    color: #a8b8d0;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border: 1px solid #3a4a6a;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s, border-color 0.2s;
+  }
+  .topnav .lang-switch a:hover { color: #fff; border-color: #6fa8f5; }
+  .topnav .lang-switch a.active { color: #fff; background: #2b5faa; border-color: #2b5faa; }
+
+  /* Page header */
+  .page-header {
+    background: #1a2744;
+    color: #fff;
+    padding: 40px 0 36px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    font-size: 13px;
+    color: #a8b8d0;
+    line-height: 1.6;
+  }
+  .page-header .meta strong { color: #6fa8f5; font-weight: 600; }
+
+  /* Sections */
+  section { padding: 40px 0 0; }
+  section:last-of-type { padding-bottom: 8px; }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a2744;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2::before {
+    content: "";
+    width: 6px;
+    height: 22px;
+    border-radius: 3px;
+    background: #2b5faa;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  p.lead {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.7;
+    background: #f0f5fa;
+    border-left: 3px solid #2b5faa;
+    padding: 14px 18px;
+    border-radius: 0 4px 4px 0;
+  }
+  p.lead strong { color: #1a2744; }
+  p.body { font-size: 15px; color: #444; line-height: 1.7; margin-bottom: 14px; }
+  p.body strong { color: #1a2744; }
+
+  code {
+    background: #eef2fb;
+    color: #1a2744;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 12.5px;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e5e9f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(26,39,68,0.06);
+  }
+
+  /* Diagrams — scale to fit, no scroll bar */
+  .diagram { padding: 22px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .grp  { font-size: 13px; font-weight: 700; fill: #8a93a3; letter-spacing: .02em; }
+  .grpsub { font-size: 10.5px; fill: #aab2bf; }
+  .n-ttl { font-weight: 700; }
+  .n-sub { font-size: 10.5px; fill: #6b7280; }
+  .pipe  { font-size: 11px; font-weight: 600; fill: #8a93a3; }
+  .diagram-cap { font-size: 12.5px; color: #7a8aaa; margin-top: 10px; text-align: center; }
+
+  /* Folder tree */
+  pre.tree {
+    background: #1a2744;
+    color: #d8dde9;
+    padding: 18px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  pre.tree .c { color: #7a8aaa; }
+  pre.tree .k { color: #6fa8f5; font-weight: 600; }
+
+  /* File table */
+  table.files { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.files th, table.files td {
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid #e5e9f2;
+    vertical-align: top;
+  }
+  table.files th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #7a8aaa;
+    background: #f7f8fb;
+  }
+  table.files td code { font-size: 12px; }
+  table.files tr:last-child td { border-bottom: none; }
+
+  /* Design principles / cards list */
+  ul.principles { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  ul.principles li {
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-left: 3px solid #2b5faa;
+    border-radius: 0 4px 4px 0;
+    padding: 13px 16px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+  }
+  ul.principles li strong { color: #1a2744; }
+
+  /* Stage / bucket cards grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  .stage { padding: 18px 18px 16px; }
+  .stage .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .stage h3 { margin: 0 0 6px; font-size: 17px; color: #1a2744; }
+  .stage p { margin: 0; font-size: 14px; color: #555; line-height: 1.55; }
+  .t-blue  { color:#1a56db; background:#e3edff; }
+  .t-green { color:#0b815a; background:#d6f4e7; }
+  .t-amber { color:#b45309; background:#fdecd2; }
+  .t-cyan  { color:#0e7490; background:#d6f0f5; }
+  .t-purple{ color:#6d28d9; background:#e8e3fb; }
+  .t-gold  { color:#a16207; background:#fdeccb; }
+
+  /* Technology chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip {
+    background: #fff;
+    border: 1px solid #d5dae8;
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  /* Explore / cross-links */
+  .explore { display: flex; flex-wrap: wrap; gap: 12px; }
+  .explore a {
+    flex: 1;
+    min-width: 200px;
+    background: #f7f8fb;
+    border: 1px solid #e5e9f2;
+    border-left: 3px solid #2b5faa;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: #1a2744;
+    font-weight: 600;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .explore a:hover { background: #f0f5fa; border-left-color: #1e4585; }
+  .explore a span { display: block; font-size: 12px; font-weight: 500; color: #555; margin-top: 3px; }
+
+  /* Footer */
+  footer {
+    background: #1a2744;
+    color: #a8b8d0;
+    padding: 28px 0;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 48px;
+  }
+  footer a { color: #6fa8f5; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .topnav .nav-links { gap: 16px; }
+    .page-header h1 { font-size: 22px; }
+    h2 { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="brand">Toby Alexander Rogers</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="atlassian.html">Atlassian</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="bi.html">BI</a></li>
+      <li><a href="jira-snowflake-pipeline.html">Project</a></li>
+      <li><a href="claude-code-workflow.html" class="active">Workflow</a></li>
+    </ul>
+    <div class="lang-switch">
+      <a href="claude-code-workflow.html" class="active">EN</a>
+      <a href="it/claude-code-workflow.html">IT</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <h1>How I Use Claude Code to Manage Projects</h1>
+    <div class="meta">Working Method &nbsp;·&nbsp; <strong>AI-Augmented Delivery in Practice</strong> &nbsp;·&nbsp; Repository · Skills · CLI · MCP · Git</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section>
+    <h2>Overview</h2>
+    <p class="lead">
+      I treat a single Git repository as my <strong>operational control centre</strong>. Every project
+      lives there as a folder of living documentation; every repeatable task becomes a reusable
+      <strong>skill</strong>; every platform — Jira, Power BI, Confluence, Power Automate, Microsoft 365,
+      Glean — is reachable from inside the same workspace. <strong>Claude Code</strong> is the layer that
+      ties it together: it reads the documentation, runs the skills, calls the platform APIs, and keeps
+      everything synchronised with Git.
+    </p>
+  </section>
+
+  <section>
+    <h2>The big picture</h2>
+    <p class="body">
+      Everything radiates out from one repository. Claude Code sits in the middle — reading my project
+      documentation and acting on the platforms through skills, the CLI, and MCP connectors — then commits
+      the entire working state back to Git.
+    </p>
+    <div class="card diagram">
+      <svg viewBox="0 0 900 470" role="img" aria-label="Diagram: the Repository as control centre, Claude Code in the middle, Platforms, and Git synchronisation">
+        <defs>
+          <marker id="d1a" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#9aa1ab"></path>
+          </marker>
+        </defs>
+
+        <!-- Repository group -->
+        <rect x="20" y="80" width="265" height="340" rx="14" fill="none" stroke="#cbd2dc" stroke-dasharray="6 5"></rect>
+        <text x="152" y="102" text-anchor="middle" class="grp">Repository</text>
+        <text x="152" y="117" text-anchor="middle" class="grpsub">my control centre</text>
+
+        <g>
+          <rect x="40" y="128" width="225" height="44" rx="10" fill="#e3edff" stroke="#b9d0ff"></rect>
+          <text x="152" y="150" text-anchor="middle" class="n-ttl" fill="#1a56db" style="font-size:14px">projects/</text>
+          <text x="152" y="165" text-anchor="middle" class="n-sub">living project docs</text>
+        </g>
+        <g>
+          <rect x="40" y="184" width="225" height="44" rx="10" fill="#d6f4e7" stroke="#a7e3cb"></rect>
+          <text x="152" y="206" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:14px">.claude/skills/</text>
+          <text x="152" y="221" text-anchor="middle" class="n-sub">reusable AI procedures</text>
+        </g>
+        <g>
+          <rect x="40" y="240" width="225" height="44" rx="10" fill="#e8e3fb" stroke="#cdbff5"></rect>
+          <text x="152" y="262" text-anchor="middle" class="n-ttl" fill="#6d28d9" style="font-size:14px">.claude/rules/</text>
+          <text x="152" y="277" text-anchor="middle" class="n-sub">persistent memory</text>
+        </g>
+        <g>
+          <rect x="40" y="296" width="225" height="44" rx="10" fill="#fdecd2" stroke="#f5d29a"></rect>
+          <text x="152" y="318" text-anchor="middle" class="n-ttl" fill="#b45309" style="font-size:14px">cli/ &nbsp;(entsol)</text>
+          <text x="152" y="333" text-anchor="middle" class="n-sub">scripted CLI</text>
+        </g>
+        <g>
+          <rect x="40" y="352" width="225" height="44" rx="10" fill="#d6f0f5" stroke="#b6e0ea"></rect>
+          <text x="152" y="374" text-anchor="middle" class="n-ttl" fill="#0e7490" style="font-size:14px">docs/</text>
+          <text x="152" y="389" text-anchor="middle" class="n-sub">→ synced to Confluence</text>
+        </g>
+
+        <!-- Claude Code -->
+        <rect x="375" y="222" width="150" height="58" rx="12" fill="#1a2744" stroke="#0d1729"></rect>
+        <text x="450" y="248" text-anchor="middle" fill="#ffffff" style="font-size:15px;font-weight:700">Claude Code</text>
+        <text x="450" y="266" text-anchor="middle" fill="#a8b8d0" style="font-size:10.5px">reads · runs · syncs</text>
+
+        <!-- Platforms group -->
+        <rect x="615" y="80" width="265" height="340" rx="14" fill="none" stroke="#cbd2dc" stroke-dasharray="6 5"></rect>
+        <text x="747" y="102" text-anchor="middle" class="grp">Platforms</text>
+
+        <g>
+          <rect x="633" y="130" width="112" height="48" rx="10" fill="#e3edff" stroke="#b9d0ff"></rect>
+          <text x="689" y="159" text-anchor="middle" class="n-ttl" fill="#1a56db" style="font-size:13px">Jira / JSM</text>
+        </g>
+        <g>
+          <rect x="755" y="130" width="112" height="48" rx="10" fill="#fdeccb" stroke="#f5d99a"></rect>
+          <text x="811" y="159" text-anchor="middle" class="n-ttl" fill="#a16207" style="font-size:13px">Power BI</text>
+        </g>
+        <g>
+          <rect x="633" y="214" width="112" height="48" rx="10" fill="#d6f0f5" stroke="#b6e0ea"></rect>
+          <text x="689" y="243" text-anchor="middle" class="n-ttl" fill="#0e7490" style="font-size:13px">Confluence</text>
+        </g>
+        <g>
+          <rect x="755" y="214" width="112" height="48" rx="10" fill="#d6f4e7" stroke="#a7e3cb"></rect>
+          <text x="811" y="237" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:12px">Power</text>
+          <text x="811" y="251" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:12px">Automate</text>
+        </g>
+        <g>
+          <rect x="633" y="298" width="112" height="48" rx="10" fill="#fdecd2" stroke="#f5d29a"></rect>
+          <text x="689" y="321" text-anchor="middle" class="n-ttl" fill="#b45309" style="font-size:12px">Microsoft</text>
+          <text x="689" y="335" text-anchor="middle" class="n-ttl" fill="#b45309" style="font-size:12px">365</text>
+        </g>
+        <g>
+          <rect x="755" y="298" width="112" height="48" rx="10" fill="#e8e3fb" stroke="#cdbff5"></rect>
+          <text x="811" y="327" text-anchor="middle" class="n-ttl" fill="#6d28d9" style="font-size:13px">Glean</text>
+        </g>
+
+        <!-- GitLab -->
+        <rect x="375" y="384" width="150" height="44" rx="10" fill="#f4f5f7" stroke="#cbd2dc"></rect>
+        <text x="450" y="411" text-anchor="middle" class="n-ttl" fill="#374151" style="font-size:13px">GitLab origin/main</text>
+
+        <!-- connectors -->
+        <line x1="285" y1="251" x2="375" y2="251" stroke="#9aa1ab" stroke-width="2" marker-start="url(#d1a)" marker-end="url(#d1a)"></line>
+        <line x1="525" y1="251" x2="615" y2="251" stroke="#9aa1ab" stroke-width="2" marker-start="url(#d1a)" marker-end="url(#d1a)"></line>
+        <text x="570" y="242" text-anchor="middle" class="pipe">skills · CLI · MCP</text>
+        <line x1="450" y1="280" x2="450" y2="384" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d1a)"></line>
+        <text x="462" y="338" text-anchor="start" class="pipe">git push</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <h2>1 · Each project is a folder of living documentation</h2>
+    <p class="body">
+      When new work arrives I create a <strong>project folder</strong> rather than keeping the context in
+      my head or scattered across emails and chats. Projects are sorted into priority buckets and follow a
+      strict naming convention (<code>tr-yyyy-mm-&lt;name&gt;</code>) so my work is instantly filterable.
+    </p>
+    <pre class="tree"><span class="c"># projects/ — sorted by priority</span>
+<span class="k">projects/</span>
+├── 0-urgent/      <span class="c">← drop-everything work</span>
+├── 1-priority/    <span class="c">← current sprint focus</span>
+├── 2-normal/      <span class="c">← standard priority</span>
+├── 3-low/         <span class="c">← backlog</span>
+└── done/          <span class="c">← archived / completed</span></pre>
+    <p class="body">
+      Every project folder contains the same core files, so anyone — or any future session — can resume the
+      work cold:
+    </p>
+    <table class="files">
+      <thead>
+        <tr><th>File</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>README.md</code></td><td>The living record — objective, background, plan with checkboxes, contacts, constraints, current status &amp; next action.</td></tr>
+        <tr><td><code>plan.md</code></td><td>The phased task breakdown.</td></tr>
+        <tr><td><code>memory.md</code></td><td>Shared context for Claude — glossary, decisions, gotchas, where credentials live.</td></tr>
+        <tr><td><code>log.md</code></td><td><em>Optional</em> — running journal of what happened, when.</td></tr>
+        <tr><td><code>inputs/ working/ output/ scripts/</code></td><td><em>Optional</em> — source material, scratch work, deliverables, and any code the project produces.</td></tr>
+      </tbody>
+    </table>
+    <p class="body" style="margin-top:14px">
+      The discipline that makes this work: <strong>the README always reflects current reality.</strong> At
+      the end of a session I update <em>Status</em> and <em>Next action</em>, so the next session starts
+      with full context instead of archaeology.
+    </p>
+  </section>
+
+  <section>
+    <h2>2 · The project lifecycle, driven by skills</h2>
+    <p class="body">
+      I manage a project's whole life with a set of <code>/project-*</code> <strong>skills</strong> —
+      slash-commands that encode each procedure so I never reinvent it. State is always written down; the
+      <em>transitions</em> are automated.
+    </p>
+    <div class="card diagram">
+      <svg viewBox="0 0 900 240" role="img" aria-label="Diagram: the project lifecycle from create, plan, focus, execute, update, to close, with an iterate loop between execute and update">
+        <defs>
+          <marker id="d2a" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#9aa1ab"></path>
+          </marker>
+        </defs>
+
+        <g>
+          <rect x="14" y="64" width="112" height="64" rx="11" fill="#e3edff" stroke="#b9d0ff"></rect>
+          <text x="70" y="96" text-anchor="middle" class="n-ttl" fill="#1a56db" style="font-size:12.5px">/project-</text>
+          <text x="70" y="110" text-anchor="middle" class="n-ttl" fill="#1a56db" style="font-size:12.5px">create</text>
+        </g>
+        <g>
+          <rect x="166" y="64" width="112" height="64" rx="11" fill="#d6f0f5" stroke="#b6e0ea"></rect>
+          <text x="222" y="96" text-anchor="middle" class="n-ttl" fill="#0e7490" style="font-size:12.5px">/project-</text>
+          <text x="222" y="110" text-anchor="middle" class="n-ttl" fill="#0e7490" style="font-size:12.5px">plan</text>
+        </g>
+        <g>
+          <rect x="318" y="64" width="112" height="64" rx="11" fill="#d6f4e7" stroke="#a7e3cb"></rect>
+          <text x="374" y="96" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:12.5px">/project-</text>
+          <text x="374" y="110" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:12.5px">focus</text>
+        </g>
+        <g>
+          <rect x="470" y="64" width="112" height="64" rx="11" fill="#fdeccb" stroke="#f5d99a"></rect>
+          <text x="526" y="96" text-anchor="middle" class="n-ttl" fill="#a16207" style="font-size:12.5px">/project-</text>
+          <text x="526" y="110" text-anchor="middle" class="n-ttl" fill="#a16207" style="font-size:12.5px">execute</text>
+        </g>
+        <g>
+          <rect x="622" y="64" width="112" height="64" rx="11" fill="#e8e3fb" stroke="#cdbff5"></rect>
+          <text x="678" y="96" text-anchor="middle" class="n-ttl" fill="#6d28d9" style="font-size:12.5px">/project-</text>
+          <text x="678" y="110" text-anchor="middle" class="n-ttl" fill="#6d28d9" style="font-size:12.5px">update</text>
+        </g>
+        <g>
+          <rect x="774" y="64" width="112" height="64" rx="11" fill="#e6e9f2" stroke="#cbd2dc"></rect>
+          <text x="830" y="96" text-anchor="middle" class="n-ttl" fill="#1a2744" style="font-size:12.5px">/project-</text>
+          <text x="830" y="110" text-anchor="middle" class="n-ttl" fill="#1a2744" style="font-size:12.5px">close</text>
+        </g>
+
+        <!-- forward arrows -->
+        <line x1="126" y1="96" x2="166" y2="96" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d2a)"></line>
+        <line x1="278" y1="96" x2="318" y2="96" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d2a)"></line>
+        <line x1="430" y1="96" x2="470" y2="96" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d2a)"></line>
+        <line x1="582" y1="96" x2="622" y2="96" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d2a)"></line>
+        <line x1="734" y1="96" x2="774" y2="96" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d2a)"></line>
+
+        <!-- iterate loop: update -> execute -->
+        <path d="M678 128 C 660 188, 544 188, 526 128" fill="none" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d2a)"></path>
+        <text x="602" y="183" text-anchor="middle" class="pipe">iterate</text>
+      </svg>
+    </div>
+    <div class="grid">
+      <div class="card stage"><span class="tag t-blue">Create</span><h3>/project-create</h3><p>Scaffolds the folder and first searches Glean for prior work, so I never start from a blank page.</p></div>
+      <div class="card stage"><span class="tag t-cyan">Plan</span><h3>/project-plan</h3><p>Researches the relevant APIs, internal Confluence docs and existing CLI commands, then writes a phased <code>plan.md</code>.</p></div>
+      <div class="card stage"><span class="tag t-green">Focus</span><h3>/project-focus</h3><p>Pulls a project's README into the session and renames it, so everything I do next is grounded in that project.</p></div>
+      <div class="card stage"><span class="tag t-gold">Execute</span><h3>/project-execute</h3><p>Picks up the next task in the plan and either does it or tells me exactly what I need to provide.</p></div>
+      <div class="card stage"><span class="tag t-purple">Update</span><h3>/project-update</h3><p>Produces a dated progress note and RYG status — mining Glean activity, or capturing the current session.</p></div>
+      <div class="card stage"><span class="tag t-blue">Close</span><h3>/project-close</h3><p>Wraps up the documentation and moves the folder to <code>done/</code>.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3 · Repeatable tasks become skills</h2>
+    <p class="body">
+      When I find myself doing the same multi-step task more than once, I turn it into a <strong>skill</strong>
+      — a folder under <code>.claude/skills/</code> with a <code>SKILL.md</code> that becomes a
+      <code>/slash-command</code>. Several of my projects were literally <em>"build a skill"</em> projects:
+      <code>jira-filter-cleanup</code>, <code>confluence-broken-links</code>,
+      <code>confluence-permissions-audit</code>, <code>powerbi-dataflow-inspect</code>. I build the
+      capability once, then reuse it forever — and publish the useful ones to the rest of the company.
+    </p>
+    <div class="card diagram">
+      <svg viewBox="0 0 900 220" role="img" aria-label="Diagram: a recurring task becomes a built skill, invoked via a slash command, and optionally published to a team marketplace">
+        <defs>
+          <marker id="d3a" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#9aa1ab"></path>
+          </marker>
+        </defs>
+
+        <g>
+          <rect x="40" y="46" width="180" height="64" rx="11" fill="#f4f5f7" stroke="#cbd2dc"></rect>
+          <text x="130" y="74" text-anchor="middle" class="n-ttl" fill="#374151" style="font-size:14px">A recurring task</text>
+          <text x="130" y="92" text-anchor="middle" class="n-sub">e.g. audit Jira filters</text>
+        </g>
+        <g>
+          <rect x="360" y="46" width="180" height="64" rx="11" fill="#d6f4e7" stroke="#a7e3cb"></rect>
+          <text x="450" y="74" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:14px">Build a skill</text>
+          <text x="450" y="92" text-anchor="middle" class="n-sub">.claude/skills/…/SKILL.md</text>
+        </g>
+        <g>
+          <rect x="680" y="46" width="180" height="64" rx="11" fill="#e3edff" stroke="#b9d0ff"></rect>
+          <text x="770" y="74" text-anchor="middle" class="n-ttl" fill="#1a56db" style="font-size:14px">Invoke /command</text>
+          <text x="770" y="92" text-anchor="middle" class="n-sub">whenever needed</text>
+        </g>
+        <g>
+          <rect x="360" y="150" width="180" height="56" rx="11" fill="#e8e3fb" stroke="#cdbff5"></rect>
+          <text x="450" y="174" text-anchor="middle" class="n-ttl" fill="#6d28d9" style="font-size:13.5px">Publish to marketplace</text>
+          <text x="450" y="191" text-anchor="middle" class="n-sub">/plugins-publish</text>
+        </g>
+
+        <line x1="220" y1="78" x2="360" y2="78" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d3a)"></line>
+        <line x1="540" y1="78" x2="680" y2="78" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d3a)"></line>
+        <line x1="450" y1="110" x2="450" y2="150" stroke="#b6bdc8" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#d3a)"></line>
+        <text x="462" y="136" text-anchor="start" class="pipe">if useful to others</text>
+      </svg>
+    </div>
+    <p class="body">Skills fall into a few buckets:</p>
+    <ul class="principles">
+      <li><strong>Git workflow</strong> — <code>/git-commit</code>, <code>/git-commit-push</code>, <code>/git-pull</code> — these screen for sensitive files before staging.</li>
+      <li><strong>Project management</strong> — the <code>/project-*</code> family above.</li>
+      <li><strong>Platform operations</strong> — <code>/entsol</code>, <code>/power-automate-docs</code>, <code>/confluence-space-creator</code>, <code>/jsm-ticket-responder</code>, and the audit/cleanup skills.</li>
+      <li><strong>Content</strong> — <code>/presentation</code>, <code>/investcloud-deck</code>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · A CLI for outage-resilient operations, and MCP for live access</h2>
+    <p class="body">
+      Alongside skills there's the <strong>entsol CLI</strong> — a Python tool that wraps the same platform
+      APIs. The rule of thumb: use a <strong>skill</strong> when the task benefits from reasoning
+      (drafting, synthesis, multi-step decisions); use the <strong>CLI</strong> when it must work
+      <em>without</em> Claude — scripting, scheduled jobs, or resilience during an outage.
+    </p>
+    <p class="body">
+      For live, read-oriented work I don't even leave the conversation — <strong>MCP connectors</strong>
+      let Claude query the platforms directly: <strong>Atlassian</strong> (Jira &amp; Confluence),
+      <strong>Glean</strong> (enterprise search across 100+ apps — my go-to for "what work do I have" and
+      "has anyone done this before"), <strong>Microsoft 365</strong> (Outlook, SharePoint, Teams),
+      <strong>Figma</strong>, and <strong>Power BI</strong>.
+    </p>
+  </section>
+
+  <section>
+    <h2>5 · Git as the synchronisation backbone</h2>
+    <p class="body">
+      This is an operational workspace, so the workflow is deliberately lightweight: <strong>commit directly
+      to <code>main</code></strong>. No branch/MR/review ceremony — it doesn't serve an ops repo. One command
+      stages, commits with a generated message, and pushes. The git skills still <strong>screen for secrets</strong>
+      (<code>.env</code>, keys, tokens) before staging, so credentials never get committed.
+    </p>
+    <div class="card diagram">
+      <svg viewBox="0 0 900 150" role="img" aria-label="Diagram: the commit-and-push flow — request, screen for secrets, stage and message, push to main, synced">
+        <defs>
+          <marker id="d4a" markerWidth="10" markerHeight="8" refX="7.5" refY="3" orient="auto-start-reverse" markerUnits="strokeWidth">
+            <path d="M0,0 L8,3 L0,6 Z" fill="#9aa1ab"></path>
+          </marker>
+        </defs>
+
+        <g>
+          <rect x="14" y="46" width="150" height="58" rx="11" fill="#e3edff" stroke="#b9d0ff"></rect>
+          <text x="89" y="71" text-anchor="middle" class="n-ttl" fill="#1a56db" style="font-size:13px">git commit &amp; push</text>
+          <text x="89" y="88" text-anchor="middle" class="n-sub">you ask</text>
+        </g>
+        <g>
+          <rect x="194" y="46" width="150" height="58" rx="11" fill="#fbe1e1" stroke="#f3bcbc"></rect>
+          <text x="269" y="71" text-anchor="middle" class="n-ttl" fill="#b91c1c" style="font-size:13px">Screen for secrets</text>
+          <text x="269" y="88" text-anchor="middle" class="n-sub">.env · keys · tokens</text>
+        </g>
+        <g>
+          <rect x="374" y="46" width="150" height="58" rx="11" fill="#fdecd2" stroke="#f5d29a"></rect>
+          <text x="449" y="71" text-anchor="middle" class="n-ttl" fill="#b45309" style="font-size:13px">Stage + message</text>
+          <text x="449" y="88" text-anchor="middle" class="n-sub">auto-generated</text>
+        </g>
+        <g>
+          <rect x="554" y="46" width="150" height="58" rx="11" fill="#d6f4e7" stroke="#a7e3cb"></rect>
+          <text x="629" y="71" text-anchor="middle" class="n-ttl" fill="#0b815a" style="font-size:13px">Push to main</text>
+          <text x="629" y="88" text-anchor="middle" class="n-sub">no MR ceremony</text>
+        </g>
+        <g>
+          <rect x="734" y="46" width="150" height="58" rx="11" fill="#1a2744" stroke="#0d1729"></rect>
+          <text x="809" y="71" text-anchor="middle" fill="#ffffff" style="font-size:13px;font-weight:700">Synced ✓</text>
+          <text x="809" y="88" text-anchor="middle" fill="#a8b8d0" style="font-size:10.5px">origin/main</text>
+        </g>
+
+        <line x1="164" y1="75" x2="194" y2="75" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d4a)"></line>
+        <line x1="344" y1="75" x2="374" y2="75" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d4a)"></line>
+        <line x1="524" y1="75" x2="554" y2="75" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d4a)"></line>
+        <line x1="704" y1="75" x2="734" y2="75" stroke="#9aa1ab" stroke-width="2" marker-end="url(#d4a)"></line>
+      </svg>
+    </div>
+    <p class="body">
+      Because everything — project docs, skills, CLI, generated scripts — lives in the repo, pushing to
+      <code>main</code> means my entire working state is backed up, versioned, and available to the team.
+    </p>
+  </section>
+
+  <section>
+    <h2>A typical day, end to end</h2>
+    <ul class="principles">
+      <li><strong>Triage</strong> — check email/JSM and my Jira queue (often via Glean) for what's landed.</li>
+      <li><strong>Focus</strong> — <code>/project-focus</code> the project I'm working on to load its context.</li>
+      <li><strong>Do the work</strong> — <code>/project-execute</code>, or work directly: write a script, inspect a Power BI dataflow, draft a Confluence page, respond to a JSM ticket.</li>
+      <li><strong>Capture</strong> — update the project's <code>README.md</code> status, or <code>/project-update</code> for a dated progress note.</li>
+      <li><strong>Sync</strong> — <code>/git-commit-push</code> to back everything up to <code>main</code>.</li>
+      <li><strong>Reuse</strong> — if I just did something I'll do again, turn it into a skill; if it's useful to the team, <code>/plugins-publish</code> it.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Why I work this way</h2>
+    <ul class="principles">
+      <li><strong>Nothing lives only in my head.</strong> Every project's state is written down and current — which makes handover and knowledge transfer straightforward.</li>
+      <li><strong>Repeatable work is automated, not re-done.</strong> Skills and the CLI mean the second time I do something costs a fraction of the first.</li>
+      <li><strong>One control centre.</strong> Docs, automation and platform access all live in one versioned repository, so context is never lost and everything is recoverable.</li>
+      <li><strong>Resilient.</strong> The CLI keeps critical operations working even without Claude, and Git keeps a full history.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Explore the domains</h2>
+    <div class="explore">
+      <a href="ai.html">AI Engineering<span>Claude Code, MCP &amp; automation →</span></a>
+      <a href="atlassian.html">Atlassian Platform<span>Jira / JSM / Confluence administration →</span></a>
+      <a href="jira-snowflake-pipeline.html">Featured Project<span>Jira → Snowflake data pipeline →</span></a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    © 2026 Toby Alexander Rogers · Padua, Italy · <a href="index.html">Back to home</a><br>
+    <span style="opacity:0.7;">Designed &amp; built by Toby Alexander Rogers</span>
+  </div>
+</footer>
+
+<!-- GoatCounter analytics (cookieless) -->
+<script data-goatcounter="https://tobyalexanderrogers.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
