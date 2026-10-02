@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a2744'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Segoe UI,Arial,sans-serif' font-size='28' font-weight='700' fill='%23fff'%3ETR%3C/text%3E%3C/svg%3E">
 <title>AI Development &amp; Engineering — Toby Alexander Rogers</title>
 <meta name="description" content="AI Development &amp; Engineering — Projects &amp; Contributions by Toby Alexander Rogers. Production Claude Code + MCP integrations, applied AI engineering at InvestCloud.">
 <meta name="author" content="Toby Alexander Rogers">
@@ -11,6 +12,7 @@
 <meta property="og:description" content="Production Claude Code + MCP integrations, applied AI engineering at InvestCloud. Author of atlassian-mcp.">
 <meta property="og:url" content="https://tobyalexanderrogers.com/ai.html">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://tobyalexanderrogers.com/photo.jpg">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -325,7 +327,7 @@
 <header class="page-header">
   <div class="container">
     <h1>AI Development &amp; Engineering</h1>
-    <div class="meta">Projects &amp; Contributions &nbsp;·&nbsp; <strong>Senior Enterprise Solutions Engineer, InvestCloud</strong> &nbsp;·&nbsp; Production AI / LLM / MCP work</div>
+    <div class="meta">Projects &amp; Contributions &nbsp;·&nbsp; <strong>Former Senior Enterprise Solutions Engineer, InvestCloud</strong> &nbsp;·&nbsp; Production AI / LLM / MCP work</div>
   </div>
 </header>
 
@@ -382,7 +384,7 @@
 
       <div class="sec-title">Approach &amp; Core Responsibilities</div>
       <div class="intro-box">
-        Using Claude Code as the primary AI coding environment for end-to-end workflow design — from generating and refactoring code to running tests and raising merge requests via standardised slash-command workflows. Atlassian and Glean MCP servers provide live context from Atlassian Jira, Confluence, SharePoint, Teams, and GitLab directly inside each coding session.
+        Using Claude Code as the primary AI coding environment for end-to-end workflow design — from generating and refactoring code to running tests and raising merge requests via standardised slash-command workflows. Atlassian and Glean MCP servers provide live context from Jira, Confluence, SharePoint, Teams, and GitLab directly inside each coding session.
       </div>
 
       <div class="sec-title">Selected Projects</div>
@@ -395,9 +397,9 @@
         <div class="proj-obj">Objective: double team capacity on BI and platform tasks by offloading repetitive work to an AI coding assistant.</div>
         <ul>
           <li>Used Claude Code to <strong>build and update Microsoft Power BI dataflows</strong>, Power Automate jobs, and related scripts — new reports stood up with significantly less manual effort.</li>
-          <li>Automated <strong>Atlassian Jira/JSM configuration and ticket hygiene</strong> — field changes, scheme updates — keeping Atlassian aligned with product and reporting needs without backlog accumulation.</li>
+          <li>Automated <strong>Jira/JSM configuration and ticket hygiene</strong> — field changes, scheme updates — keeping Atlassian aligned with product and reporting needs without backlog accumulation.</li>
         </ul>
-        <div class="outcome-bar"><span>Impact</span><p>Delivered ~2× capacity increase for Enterprise Solutions on BI and Atlassian Jira/JSM tasks, unlocking a backlog previously blocked by manual effort constraints.</p></div>
+        <div class="outcome-bar"><span>Impact</span><p>Delivered ~2× capacity increase for Enterprise Solutions on BI and Jira/JSM tasks, unlocking a backlog previously blocked by manual effort constraints.</p></div>
       </div>
 
       <div class="proj">
@@ -416,14 +418,14 @@
       <div class="proj">
         <div class="proj-header">
           <div class="proj-title">3. AI-assisted Atlassian workflows via Claude Code + MCP</div>
-          <div class="proj-tag">Claude Code · Atlassian MCP · Atlassian Jira · Confluence</div>
+          <div class="proj-tag">Claude Code · Atlassian MCP · Jira · Confluence</div>
         </div>
         <div class="proj-obj">Objective: use Claude Code as an agent over Atlassian to keep code, tickets, and documentation in sync automatically.</div>
         <ul>
-          <li>Configured <strong>Atlassian MCP servers</strong> to enable Claude to read/update Atlassian Jira tickets — comments, status transitions, MR links — and edit Confluence pages directly from the CLI.</li>
-          <li>Applied to Enterprise Solutions work: JSM tickets, Atlassian Jira config changes, and documentation updates all tied into a single agentic workflow.</li>
+          <li>Configured <strong>Atlassian MCP servers</strong> to enable Claude to read/update Jira tickets — comments, status transitions, MR links — and edit Confluence pages directly from the CLI.</li>
+          <li>Applied to Enterprise Solutions work: JSM tickets, Jira config changes, and documentation updates all tied into a single agentic workflow.</li>
         </ul>
-        <div class="outcome-bar"><span>Impact</span><p>Atlassian Jira, Confluence, and code stay in sync automatically — reducing manual bookkeeping and improving auditability of all platform changes.</p></div>
+        <div class="outcome-bar"><span>Impact</span><p>Jira, Confluence, and code stay in sync automatically — reducing manual bookkeeping and improving auditability of all platform changes.</p></div>
       </div>
 
       <div class="proj">
@@ -433,11 +435,11 @@
         </div>
         <div class="proj-obj">Objective: open-source a production-grade Python MCP server demonstrating the agentic Atlassian pattern delivered at InvestCloud.</div>
         <ul>
-          <li>Designed and built a read-only <strong>Python MCP server</strong> exposing curated JQL primitives for Atlassian Jira access via Claude — backend service architecture with FastMCP + httpx + python-dotenv.</li>
+          <li>Designed and built a read-only <strong>Python MCP server</strong> exposing curated JQL primitives for Jira access via Claude — backend service architecture with FastMCP + httpx + python-dotenv.</li>
           <li>Documented architecture, README, demo screenshot, and explicit "not in scope" framing — public artefact at <strong><a href="https://github.com/Toby-Rogers/atlassian-mcp" target="_blank">github.com/Toby-Rogers/atlassian-mcp</a></strong> demonstrating senior engineering practice.</li>
         </ul>
 
-        <img src="atlassian-mcp-demo.png" alt="atlassian-mcp demo: Claude querying Atlassian Jira via MCP" class="project-image">
+        <img src="atlassian-mcp-demo.png" alt="atlassian-mcp demo: Claude querying Jira via MCP" class="project-image">
 
 <pre class="code-block"><span class="code-comment"># Example: a curated JQL primitive exposed as an MCP tool via FastMCP</span>
 <span class="code-keyword">from</span> fastmcp <span class="code-keyword">import</span> FastMCP
@@ -448,11 +450,11 @@ mcp = FastMCP(<span class="code-string">"atlassian-mcp"</span>)
 
 <span class="code-decorator">@mcp.tool()</span>
 <span class="code-keyword">def</span> <span class="code-function">list_open_tickets_by_component</span>(component: str, limit: int = 10) -> dict:
-    <span class="code-string">"""List open Atlassian Jira issues for a given component via JQL."""</span>
+    <span class="code-string">"""List open Jira issues for a given component via JQL."""</span>
     jql = <span class="code-string">f'component = "{component}" AND statusCategory != Done'</span>
     response = httpx.get(
-        <span class="code-string">f"{os.environ['JIRA_URL']}/rest/api/3/search"</span>,
-        params={<span class="code-string">"jql"</span>: jql, <span class="code-string">"maxResults"</span>: limit},
+        <span class="code-string">f"{os.environ['JIRA_URL']}/rest/api/3/search/jql"</span>,
+        params={<span class="code-string">"jql"</span>: jql, <span class="code-string">"maxResults"</span>: limit, <span class="code-string">"fields"</span>: <span class="code-string">"summary,status"</span>},
         auth=(os.environ[<span class="code-string">'JIRA_USER'</span>], os.environ[<span class="code-string">'JIRA_TOKEN'</span>]),
     )
     <span class="code-keyword">return</span> response.json()</pre>
@@ -478,7 +480,7 @@ mcp = FastMCP(<span class="code-string">"atlassian-mcp"</span>)
           <div class="proj-tag">Glean · Enterprise AI · Cross-system research</div>
         </div>
         <ul>
-          <li>Use Glean daily to pull together <strong>Atlassian Jira, Confluence, SharePoint, Teams, and Outlook</strong> context into a single view when scoping automations or troubleshooting.</li>
+          <li>Use Glean daily to pull together <strong>Jira, Confluence, SharePoint, Teams, and Outlook</strong> context into a single view when scoping automations or troubleshooting.</li>
           <li>BI reports and agentic workflows aligned with the <strong>Glean Training &amp; Adoption</strong> programme and InvestCloud's broader Enterprise AI strategy.</li>
         </ul>
         <div class="outcome-bar"><span>Impact</span><p>AI work is rooted in a secure, permission-aware enterprise context — supporting the wider rollout of Glean and Claude as InvestCloud's primary AI tools.</p></div>
